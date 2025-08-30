@@ -16,6 +16,6 @@ minikube service weatherapp
 
 ```
 
-![Scheme] (03_k8s_simple_scheme.png)
+![Scheme](03_k8s_simple_scheme.png)
   
-![Service] (03_k8s_service.png)
+![Service](03_k8s_service.png)
