@@ -27,8 +27,8 @@ Build automation is independent of an IDE
 Should be machine agnostic. BA is fast, consistent, repeatable & portable, reliable  
   
 3. Continuous Integration  
-Resolves code / merge conflicts problem
-Benefits of CI:
+Resolves code / merge conflicts problem  
+Benefits of CI:  
 - Ensures everyone's changes are integrated
 - Catch bugs
 - Reduce merge conflicts
@@ -51,36 +51,39 @@ Tools: Ansible (Declarative configuration, doesn't require centralized server, d
 Goal: to avoid human errors, consistent deployment, reusability, scalability of the Code  
 Makes Infrastructeure Self-Documneted  
   
-7. Configuration Management
-
-Doing the changes in a maintainable way & minimizing configuration drift
-Maintain and change the state of various pieces of infrastructure in a consistent way
-Tools: Ansible ( Declarative configuration), Puppet (Declarative configuration), Chef (procedural configuration), SALT (Declarative configuration)
+7. Configuration Management  
+  
+Doing the changes in a maintainable way & minimizing configuration drift  
+Maintain and change the state of various pieces of infrastructure in a consistent way  
+Tools: Ansible ( Declarative configuration), Puppet (Declarative configuration), Chef (procedural configuration), SALT (Declarative configuration)  
   
 8. Monitoring
-Quickly respond to problems, collect system metrics
-Represent data in presentable manner
-Assists in troubleshooting
-Tools Infrastructure Monitoring: Sensu, New relic (SAAS), ELK
-Tools App Performance: APPDYNAMICS, Elastic Stack
+    - Quickly respond to problems, collect system metrics
+    - Represent data in presentable manner
+    - Assists in troubleshooting
+
+    Tools Infrastructure Monitoring: Sensu, New relic (SAAS), ELK  
+    Tools App Performance: APPDYNAMICS, Elastic Stack  
   
 9. Microservices
-Microservices architecture - collection of small but loosely coupled services (VS Monolithic Architecture) - crucial for large and complex apps
-Microservices interact with each other and with application overall using a stable well defined APIs
-Microservices are modular, flexible
-Microservices offer optimized stability
+    - Microservices architecture - collection of small but loosely coupled services (VS Monolithic Architecture) - crucial for large and complex apps
+    - Microservices interact with each other and with application overall using a stable well defined APIs
+    - Microservices are modular, flexible
+    - Microservices offer optimized stability
   
 10. Tools for Virtualization and Containerization
-Hypervisor is a program that runs on the bare physical metal and allows to manage virtual machines
-Virtualization Tools: VMware, hyper-v, Xen server
-Containerization Tools: Docker
-Orchestration Tools: Docker swarm, Kubernetes, ZooKeeper, Terraform (IaaS - infrastructure as a service)
+    - Hypervisor is a program that runs on the bare physical metal and allows to manage virtual machines
+    - Virtualization Tools: VMware, hyper-v, Xen server
+    - Containerization Tools: Docker
+    - Orchestration Tools: Docker swarm, Kubernetes, ZooKeeper, Terraform (IaaS - infrastructure as a service)
   
 11. Cloud
-IaaS - infrastructure as a service
-The Cloud provider typically provides you with bare operating system
-AWS (EC2)
-Google Cloud, Azure
-PAAS - platform as a service (Heroku, App Engine)
-SAAS - software as a service (Gmail, office 365)
-FAAS - function as a service (AWS Lambda, Azure Functions, Google Cloud Functions)
+    IaaS - infrastructure as a service  
+    The Cloud provider typically provides you with bare operating system  
+    - AWS (EC2)
+    - Google Cloud, Azure
+
+    Abbr: 
+    - PAAS - platform as a service (Heroku, App Engine)
+    - SAAS - software as a service (Gmail, office 365)
+    - FAAS - function as a service (AWS Lambda, Azure Functions, Google Cloud Functions)
