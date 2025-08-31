@@ -11,11 +11,6 @@
 8. [Difference between DevOps & Agile](#question8)
 9. [Configuration Management](#question9)
 10. [Infrastructure as Code](#question10)
-11. [Some](#question11)
-12. [Some](#question12)
-13. [Some](#question13)
-14. [Some](#question14)
-15. [Some](#question15)
 
 ## 1. What is DevOps? <a name="question1"></a>
     **DevOps** is a set of practices, principles, and cultural philosophies that aim to unify software development (`Dev`) and IT operations (`Ops`). The goal of **DevOps** is to shorten the software development lifecycle, increase deployment frequency, and deliver high-quality software reliably.
@@ -157,12 +152,12 @@
         Use for resource-intensive, consistent workloads that perform well on a single, powerful machine, such as certain databases or video rendering services. 
 
 ## 8. Difference between DevOps & Agile <a name="question8"></a>
-    | Agile                                             | DevOps                                 |
-    |---------------------------------------------------|----------------------------------------|
-    | Agile is a method for creating software.          | It is not related to SW development.   |
-    | An advancement and administration approach.       | Typically a conclusion of administration related to designing. |
-    | The agile handle centers on consistent changes.   | DevOps centers on steady testing and conveyance.   |
-    | Agile relates generally to the way advancement is carried out, any division of the company can be spry on its hones. This may be accomplished through preparation. | DevOps centers more on program arrangement choosing the foremost dependable and most secure course. |
+    | Agile                                    | DevOps                                 |
+    |:-----------------------------------------|:---------------------------------------|
+    | Agile is a method for creating software. | It is not related to SW development.   |
+    | An advancement and administration approach. | Typically a conclusion of administration related to designing. |
+    | The agile handle centers on consistent changes. | DevOps centers on steady testing and conveyance.   |
+    | Agile relates generally to the way advancement is carried out,<br>any division of the company can be spry on its hones.<br>This may be accomplished through preparation. | DevOps centers more on program arrangement<br>choosing the foremost dependable and most secure course. |
 
 ## 9. Configuration Management <a name="question9"></a>
     Configuration management is the automated and consistent management of software and infrastructure configurations throughout the application lifecycle, ensuring all elements are properly configured, synchronized, and tracked. It leverages tools like Ansible, Chef, Puppet, and Terraform for infrastructure and application configuration, utilizing version control (e.g., Git) and CI/CD pipelines to achieve reliable, repeatable, and agile software delivery. The goal is to reduce manual errors, maintain stability, improve collaboration, and accelerate the software delivery process
@@ -225,4 +220,3 @@
         Storing infrastructure as code in a shared repository facilitates peer review and knowledge sharing among teams. 
     - Disaster Recovery:
         The ability to quickly spin up and destroy infrastructure makes it easier and faster to recover from disasters.
-
