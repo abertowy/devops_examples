@@ -33,4 +33,4 @@
 11. Kubectl:
     The command-line tool used to interact with the Kubernetes API server and manage Kubernetes objects.
 
-![Core components](02_k8s_core_components.png)
+![Core components](../images/02_k8s_core_components.png)
