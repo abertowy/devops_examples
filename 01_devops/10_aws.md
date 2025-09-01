@@ -42,7 +42,7 @@ AWS CodeCommit, CodeBuild, CodeDeploy, and CodePipeline are core services within
 3. Amazon ECS (Elastic Container Service) / EKS (Elastic Kubernetes Service): 
     Both ECS and EKS are container orchestration services for deploying, managing, and scaling containerized applications.  
     - **ECS:** A fully managed container orchestration service that simplifies running Docker containers.
-    - **EKS:** A managed Kubernetes service that allows you to run Kubernetes on AWS without managing the Kubernetes control plane.
+    - **EKS:** A managed Kubernetes service that allows you to run Kubernetes on AWS without managing the Kubernetes control plane.  
     Use it when:  
     - **ECS:** When you need a managed solution for running Docker containers and prefer a simpler, AWS-native approach to container orchestration. Suitable for microservices architectures and applications that benefit from containerization without the complexity of managing Kubernetes.
     - **EKS:** When you require the full power and flexibility of Kubernetes, including its extensive ecosystem, portability across environments, and fine-grained control over container deployments. Ideal for complex, large-scale containerized applications or when already using Kubernetes on-premises.
@@ -53,110 +53,110 @@ AWS CloudWatch and CloudTrail are fundamental services for monitoring, auditing,
 
 1. AWS CloudWatch:  
     CloudWatch is a monitoring and observability service that collects and tracks metrics, monitors log files, and sets alarms. It provides a unified view of operational health, enabling you to: 
-    - Collect Metrics:
-        Gather performance data from AWS resources (EC2 instances, EBS volumes, RDS databases, etc.) and custom applications.
-    - Monitor Logs:
-        Ingest and analyze log data from various sources, such as EC2 instances, Lambda functions, and CloudTrail.
-    - Create Alarms:
-        Set up automated actions or notifications based on metric thresholds or log patterns, triggering alerts when issues arise.
-    - Build Dashboards:
-        Visualize metrics and logs to gain insights into system performance and resource utilization.
+    - Collect Metrics:  
+        Gather performance data from AWS resources (EC2 instances, EBS volumes, RDS databases, etc.) and custom applications.  
+    - Monitor Logs:  
+        Ingest and analyze log data from various sources, such as EC2 instances, Lambda functions, and CloudTrail.  
+    - Create Alarms:  
+        Set up automated actions or notifications based on metric thresholds or log patterns, triggering alerts when issues arise.  
+    - Build Dashboards:  
+        Visualize metrics and logs to gain insights into system performance and resource utilization.  
 2. AWS CloudTrail:  
-    CloudTrail is an auditing and governance service that records API calls and events within your AWS account. It provides a detailed history of actions taken, including:
-    - API Call Logging:
+    CloudTrail is an auditing and governance service that records API calls and events within your AWS account. It provides a detailed history of actions taken, including:  
+    - API Call Logging:  
         Records every API call made to AWS services, whether initiated by users, roles, or AWS services.
-    - Event Logging:
+    - Event Logging:  
         Captures events like resource changes, security configuration modifications, and user activity.
-    - Auditing and Compliance:
+    - Auditing and Compliance:  
         Provides a comprehensive audit trail for security analysis, compliance requirements, and troubleshooting operational issues.
-    - Security Monitoring:
-        Detects unauthorized or suspicious activity by tracking changes to critical resources and configurations.
+    - Security Monitoring:  
+        Detects unauthorized or suspicious activity by tracking changes to critical resources and configurations.  
   
 **Setting Up Effective Monitoring and Alerting:**  
 1. Define Key Metrics and Logs:  
     Identify the critical performance indicators (e.g., CPU utilization, network I/O, error rates) and log sources relevant to your applications and infrastructure.
 2. Configure CloudWatch Alarms:  
-    - Metric Alarms: 
-        Create alarms based on thresholds for key metrics (e.g., high CPU utilization on an EC2 instance, low free storage space on an RDS instance).
-    - Log Alarms: 
-        Set up alarms based on patterns in CloudWatch Logs, such as error messages or specific events.
-    - Actions: 
-        Configure actions for alarms, including sending notifications (SNS), triggering Auto Scaling actions, or invoking Lambda functions for automated remediation.
+    - Metric Alarms:  
+        Create alarms based on thresholds for key metrics (e.g., high CPU utilization on an EC2 instance, low free storage space on an RDS instance).  
+    - Log Alarms:  
+        Set up alarms based on patterns in CloudWatch Logs, such as error messages or specific events.  
+    - Actions:  
+        Configure actions for alarms, including sending notifications (SNS), triggering Auto Scaling actions, or invoking Lambda functions for automated remediation.  
 3. Enable CloudTrail:  
-    - Create a Trail: 
-        Configure a CloudTrail trail to log API calls and events, specifying where to store the logs (typically an S3 bucket).
-    - Integrate with CloudWatch Logs: 
-        Send CloudTrail logs to CloudWatch Logs for centralized log management and analysis.
-    - Create CloudWatch Alarms for CloudTrail Events: 
-        Set up alarms to detect suspicious or unauthorized activities recorded by CloudTrail, such as changes to security groups or IAM roles.
+    - Create a Trail:  
+        Configure a CloudTrail trail to log API calls and events, specifying where to store the logs (typically an S3 bucket).  
+    - Integrate with CloudWatch Logs:  
+        Send CloudTrail logs to CloudWatch Logs for centralized log management and analysis.  
+    - Create CloudWatch Alarms for CloudTrail Events:  
+        Set up alarms to detect suspicious or unauthorized activities recorded by CloudTrail, such as changes to security groups or IAM roles.  
 4. Build CloudWatch Dashboards:  
-    Create custom dashboards to visualize key metrics, logs, and alarm states, providing a consolidated view of your operational health.
+    Create custom dashboards to visualize key metrics, logs, and alarm states, providing a consolidated view of your operational health.  
 5. Establish Notification Channels:  
-    Configure SNS topics or other notification mechanisms to receive alerts from CloudWatch Alarms, ensuring timely awareness of issues.
+    Configure SNS topics or other notification mechanisms to receive alerts from CloudWatch Alarms, ensuring timely awareness of issues.  
 6. Regularly Review and Refine:  
-    Periodically review your monitoring and alerting configurations, adjusting thresholds, adding new metrics, and refining alarms as your environment evolves.
+    Periodically review your monitoring and alerting configurations, adjusting thresholds, adding new metrics, and refining alarms as your environment evolves.  
 
 ## 4. Explain VPCs, subnets, security groups, and network ACLs <a name="question4"></a>
 
 A Virtual Private Cloud (VPC) provides an isolated section of the public cloud for your resources, like a private network. Subnets are logical divisions within a VPC, creating smaller, manageable segments like public or private areas for your resources. Security Groups act as stateful virtual firewalls at the resource level, controlling traffic for individual resources like EC2 instances, while Network Access Control Lists (NACLs) are stateless virtual firewalls that control traffic at the subnet level, offering a separate layer of security.  
 
-1. VPC (Virtual Private Cloud) 
-    - Definition: 
-        A VPC is a logically isolated, private network within a public cloud environment.
-    - Purpose: 
-        It allows you to launch AWS resources in a virtual network that you define, including your own IP address range, routing tables, and network gateways.
-    - Function: 
-        Think of it as your own customizable private data center in the cloud.
-2. Subnets
-    - Definition: 
-        A subnet is a logical subdivision of a VPC, breaking down the larger network into smaller, distinct network segments. 
-    - Purpose: 
-        Subnets help organize resources and control network traffic flow. You can create public subnets (with access to the internet) and private subnets (isolated from the internet). 
-    - Association: 
-        Each subnet in your VPC must be associated with a Network ACL. 
-3. Security Groups
-    - Definition: 
-        A Security Group is a stateful virtual firewall that controls traffic to and from individual resources, such as EC2 instances. 
-    - Function: 
-        It acts as a firewall for your instance. You define rules for the traffic allowed in and out. 
-    - Stateful nature: 
-        Security Groups are stateful, meaning if you allow inbound traffic, the return traffic is automatically allowed, and vice versa. 
-4. Network ACLs (NACLs)
+1. VPC (Virtual Private Cloud)  
     - Definition:  
-        A Network ACL is a stateless virtual firewall that controls traffic at the subnet level. 
+        A VPC is a logically isolated, private network within a public cloud environment.  
+    - Purpose:   
+        It allows you to launch AWS resources in a virtual network that you define, including your own IP address range, routing tables, and network gateways.  
     - Function:  
-        It allows or denies inbound and outbound traffic for the entire subnet based on explicit rules. 
+        Think of it as your own customizable private data center in the cloud.  
+2. Subnets  
+    - Definition:  
+        A subnet is a logical subdivision of a VPC, breaking down the larger network into smaller, distinct network segments.  
+    - Purpose:  
+        Subnets help organize resources and control network traffic flow. You can create public subnets (with access to the internet) and private subnets (isolated from the internet).  
+    - Association:  
+        Each subnet in your VPC must be associated with a Network ACL.  
+3. Security Groups  
+    - Definition:  
+        A Security Group is a stateful virtual firewall that controls traffic to and from individual resources, such as EC2 instances.  
+    - Function:  
+        It acts as a firewall for your instance. You define rules for the traffic allowed in and out.  
+    - Stateful nature:  
+        Security Groups are stateful, meaning if you allow inbound traffic, the return traffic is automatically allowed, and vice versa.  
+4. Network ACLs (NACLs)  
+    - Definition:  
+        A Network ACL is a stateless virtual firewall that controls traffic at the subnet level.  
+    - Function:  
+        It allows or denies inbound and outbound traffic for the entire subnet based on explicit rules.  
     - Stateless nature:  
-        NACLs are stateless, meaning they evaluate each packet individually. If you allow an inbound request, you must also create an explicit outbound rule for the response to be allowed. 
+        NACLs are stateless, meaning they evaluate each packet individually. If you allow an inbound request, you must also create an explicit outbound rule for the response to be allowed.  
     - Rule Processing:  
-        Rules are processed in order based on their number (e.g., lower numbers are evaluated first). 
+        Rules are processed in order based on their number (e.g., lower numbers are evaluated first).  
     - Role:  
-        NACLs provide an additional layer of security to your VPC, working alongside Security Groups. 
+        NACLs provide an additional layer of security to your VPC, working alongside Security Groups.  
 
 ## 5. Discuss S3, EBS, and EFS, and their respective use cases <a name="question5"></a>
 
-Amazon S3 is for object storage of large, unstructured data like backups, images, and website content, offering high durability and scalability. Amazon EBS is block storage for single EC2 instances, like a virtual hard drive, ideal for operating systems, databases, and high-performance applications. Amazon EFS is shared file storage, similar to network-attached storage (NAS), that multiple EC2 instances can mount simultaneously, perfect for shared workloads and content management systems. 
+Amazon S3 is for object storage of large, unstructured data like backups, images, and website content, offering high durability and scalability. Amazon EBS is block storage for single EC2 instances, like a virtual hard drive, ideal for operating systems, databases, and high-performance applications. Amazon EFS is shared file storage, similar to network-attached storage (NAS), that multiple EC2 instances can mount simultaneously, perfect for shared workloads and content management systems.  
   
 1. Amazon S3 (Simple Storage Service)
-    An object storage service that stores data as objects within buckets, providing seemingly unlimited, highly durable, and scalable storage for unstructured data. 
+    An object storage service that stores data as objects within buckets, providing seemingly unlimited, highly durable, and scalable storage for unstructured data.  
     **Use Cases:**  
-    - Backups and Archives: Storing large volumes of data, including backups, disaster recovery, and archival purposes with low-cost archival options. 
-    - Website Hosting: Hosting static website content and other web assets. 
-    - Data Lakes and Analytics: Building data lakes for big data analytics, storing raw data for various machine learning tools. 
-    - Content Management: Storing and serving content for content management systems. 
+    - Backups and Archives: Storing large volumes of data, including backups, disaster recovery, and archival purposes with low-cost archival options.  
+    - Website Hosting: Hosting static website content and other web assets.  
+    - Data Lakes and Analytics: Building data lakes for big data analytics, storing raw data for various machine learning tools.  
+    - Content Management: Storing and serving content for content management systems.  
 2. Amazon EBS (Elastic Block Store)
-    Block storage volumes that are attached to a single EC2 instance, functioning as a persistent, low-latency virtual hard drive. 
+    Block storage volumes that are attached to a single EC2 instance, functioning as a persistent, low-latency virtual hard drive.  
     **Use Cases:**  
-    - Operating Systems & Databases: Providing storage for EC2 instances, including hosting the operating system and running databases. 
-    - High-Performance Applications: Delivering high-performance, low-latency block storage for demanding applications that require fast data access. 
-    - Single-Instance Storage: Used for workloads that need storage for a single, dedicated EC2 instance. 
+    - Operating Systems & Databases: Providing storage for EC2 instances, including hosting the operating system and running databases.  
+    - High-Performance Applications: Delivering high-performance, low-latency block storage for demanding applications that require fast data access.  
+    - Single-Instance Storage: Used for workloads that need storage for a single, dedicated EC2 instance.  
 3. Amazon EFS (Elastic File System)
-    A managed, scalable file system that multiple EC2 instances or other AWS services can access concurrently. It functions as a shared drive. 
+    A managed, scalable file system that multiple EC2 instances or other AWS services can access concurrently. It functions as a shared drive.  
     **Use Cases:**  
-    - Shared File Access: Providing a shared file system for multiple EC2 instances or containers to access concurrently. 
-    - Content Management & Web Servers: Supporting content management systems and web servers that require shared storage. 
-    - Big Data and Analytics: Facilitating big data analytics and other workloads that require concurrent file system access. 
-    - Lift-and-Shift Applications: Ideal for lifting and shifting existing applications that rely on shared file systems. 
+    - Shared File Access: Providing a shared file system for multiple EC2 instances or containers to access concurrently.  
+    - Content Management & Web Servers: Supporting content management systems and web servers that require shared storage.  
+    - Big Data and Analytics: Facilitating big data analytics and other workloads that require concurrent file system access.  
+    - Lift-and-Shift Applications: Ideal for lifting and shifting existing applications that rely on shared file systems.  
 
 ## 6. Explain services like RDS, DynamoDB, and Aurora <a name="question6"></a>
 
@@ -177,15 +177,15 @@ Configuration management tools automate the process of maintaining consistency i
   
 1. AWS Systems Manager  
     AWS Systems Manager is a collection of capabilities within AWS that helps manage and automate operational tasks across AWS resources and on-premises instances. For configuration management, key components include:  
-    - State Manager: 
+    - State Manager:  
         Maintains a defined state for instances by applying configurations and ensuring compliance.
-    - Parameter Store: 
+    - Parameter Store:  
         Securely stores and manages configuration data and secrets.
-    - Run Command: 
+    - Run Command:  
         Remotely executes commands on instances for tasks like software installation or updates.
-    - Patch Manager: 
-        Automates the patching process for operating systems and applications.
-  
+    - Patch Manager:  
+        Automates the patching process for operating systems and applications.  
+
     **Advantages:** Deep integration with the AWS ecosystem, serverless capabilities for many features, and centralized management within the AWS console.
   
     **Considerations:** Primarily focused on AWS environments, though it can manage hybrid environments with on-premises instances.
@@ -232,14 +232,14 @@ A NoSQL database, also known as a non-relational or "not only SQL" database, is 
     NoSQL databases are optimized for specific data models and workloads, often providing faster read and write operations compared to traditional relational databases, especially in scenarios with large datasets and high user traffic. 
 5. Various Data Models:  
     NoSQL databases support different data models, including: 
-    - Document databases: 
+    - Document databases:  
         Store data as documents (e.g., JSON, XML) with flexible schemas. 
-    - Key-value stores: 
+    - Key-value stores:  
         Store data as key-value pairs, where each value is associated with a unique key. 
-    - Graph databases: 
+    - Graph databases:  
         Store data as nodes and edges, representing relationships between entities. 
-    - Wide-column stores: 
-        Store data in columns, allowing for flexible schemas and efficient storage of large datasets. 
+    - Wide-column stores:  
+        Store data in columns, allowing for flexible schemas and efficient storage of large datasets.  
 6. Distributed Systems:  
     NoSQL databases are often designed as distributed systems, with data replicated across multiple machines to ensure high availability and fault tolerance. 
   
