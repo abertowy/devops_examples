@@ -14,35 +14,35 @@
 
 ## 1. What is GIT <a name="question1"></a>
 
-    Git is a free and open-source distributed version control system (VCS) designed to handle everything from small to very large projects with speed and efficiency. It was originally created by Linus Torvalds in 2005
+Git is a free and open-source distributed version control system (VCS) designed to handle everything from small to very large projects with speed and efficiency. It was originally created by Linus Torvalds in 2005
 
-    - Distributed:
-        Unlike older centralized VCSs, every developer has a complete local copy of the entire repository history. This allows for offline work and faster local operations like commits, branching, and merging.
-    - Version Control:
-        Git tracks changes made to files over time, enabling developers to revert to previous versions, compare changes, and understand the history of a project.
-    - Branching and Merging:
-        Git excels at allowing developers to create independent lines of development (branches), work on features in isolation, and then seamlessly merge those changes back into the main project.
-    - Performance:
-        Git is known for its speed in handling common operations like committing, branching, and merging.
-    - Collaboration:
-        Git facilitates collaborative software development by providing tools and workflows for teams to share code, review changes (e.g., through pull requests), and resolve conflicts.
+- Distributed:
+    Unlike older centralized VCSs, every developer has a complete local copy of the entire repository history. This allows for offline work and faster local operations like commits, branching, and merging.
+- Version Control:
+    Git tracks changes made to files over time, enabling developers to revert to previous versions, compare changes, and understand the history of a project.
+- Branching and Merging:
+    Git excels at allowing developers to create independent lines of development (branches), work on features in isolation, and then seamlessly merge those changes back into the main project.
+- Performance:
+    Git is known for its speed in handling common operations like committing, branching, and merging.
+- Collaboration:
+    Git facilitates collaborative software development by providing tools and workflows for teams to share code, review changes (e.g., through pull requests), and resolve conflicts.
 
 ## 2. Benefits of using version control <a name="question2"></a>
 
-    - Collaboration:
-        Git facilitates seamless collaboration among multiple developers working on the same project. It allows team members to work on separate features or bug fixes simultaneously without overwriting each other's work, and provides robust mechanisms for merging changes.
-    - Change Tracking and History:
-        Git meticulously records every change made to the codebase, including who made the change, when it was made, and a descriptive commit message explaining the purpose of the change. This comprehensive history is invaluable for understanding project evolution, debugging issues, and auditing changes.
-    - Branching and Merging:
-        Git's powerful branching model enables developers to create isolated environments for experimenting with new features or fixes without affecting the main codebase. Once changes are stable, they can be easily merged back into the main branch.
-    - Error Recovery and Rollbacks:
-        The complete history maintained by Git acts as a safety net. If a bug is introduced or a change causes issues, it is easy to identify the problematic commit and revert to a previous, stable version of the code.
-    - Backup and Disaster Recovery:
-        Git repositories serve as a distributed backup of the project's history. Even if a local copy is lost, the project can be restored from a remote repository.
-    - Improved Code Quality and Review:
-        The ability to track changes and compare different versions facilitates code reviews, allowing team members to scrutinize changes, identify potential issues, and ensure code quality before integration.
-    - Faster Development and Experimentation:
-        The ease of creating branches and merging changes encourages experimentation and rapid iteration, leading to a more efficient development workflow.
+- Collaboration:
+    Git facilitates seamless collaboration among multiple developers working on the same project. It allows team members to work on separate features or bug fixes simultaneously without overwriting each other's work, and provides robust mechanisms for merging changes.
+- Change Tracking and History:
+    Git meticulously records every change made to the codebase, including who made the change, when it was made, and a descriptive commit message explaining the purpose of the change. This comprehensive history is invaluable for understanding project evolution, debugging issues, and auditing changes.
+- Branching and Merging:
+    Git's powerful branching model enables developers to create isolated environments for experimenting with new features or fixes without affecting the main codebase. Once changes are stable, they can be easily merged back into the main branch.
+- Error Recovery and Rollbacks:
+    The complete history maintained by Git acts as a safety net. If a bug is introduced or a change causes issues, it is easy to identify the problematic commit and revert to a previous, stable version of the code.
+- Backup and Disaster Recovery:
+    Git repositories serve as a distributed backup of the project's history. Even if a local copy is lost, the project can be restored from a remote repository.
+- Improved Code Quality and Review:
+    The ability to track changes and compare different versions facilitates code reviews, allowing team members to scrutinize changes, identify potential issues, and ensure code quality before integration.
+- Faster Development and Experimentation:
+    The ease of creating branches and merging changes encourages experimentation and rapid iteration, leading to a more efficient development workflow.
 
 ## 3. Branching strategies <a name="question3"></a>
 
