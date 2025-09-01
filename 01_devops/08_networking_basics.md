@@ -165,25 +165,25 @@ Physical vs. Logical Topology
 
 **Common Types of Network Topologies**
 1. Star Topology:
-    All devices connect to a central hub or switch. 
-    - Pros: Easy to manage, failure in one device doesn't affect others.
-    - Cons: If the central hub fails, the entire network goes down. 
+    All devices connect to a central hub or switch.  
+    - Pros: Easy to manage, failure in one device doesn't affect others.  
+    - Cons: If the central hub fails, the entire network goes down.  
 2. Bus Topology:
-    All devices connect to a single central cable, or bus. 
-    - Pros: Cost-effective and simple to implement.
-    - Cons: A single break in the cable can shut down the entire network. 
+    All devices connect to a single central cable, or bus.  
+    - Pros: Cost-effective and simple to implement.  
+    - Cons: A single break in the cable can shut down the entire network.  
 3. Ring Topology:
-    Devices are connected in a closed loop, forming a ring. Data travels in one direction. 
-    - Pros: Efficient for managing data flow in some applications.
-    - Cons: The network can fail if a single link breaks or a node fails. 
+    Devices are connected in a closed loop, forming a ring. Data travels in one direction.  
+    - Pros: Efficient for managing data flow in some applications.  
+    - Cons: The network can fail if a single link breaks or a node fails.   
 4. Mesh Topology:
-    Devices are connected to multiple other devices, providing redundancy. 
-    - Pros: High redundancy and fault tolerance.
-    - Cons: Can be expensive and complex to set up, especially with full mesh connections. 
+    Devices are connected to multiple other devices, providing redundancy.   
+    - Pros: High redundancy and fault tolerance.  
+    - Cons: Can be expensive and complex to set up, especially with full mesh connections.   
 5. Tree Topology:
-    A hybrid structure combining elements of star and bus topologies. 
-    - Pros: Highly scalable, good for larger networks.
-    - Cons: Can be complex to manage, and if the root node fails, the entire network may be affected. 
+    A hybrid structure combining elements of star and bus topologies.   
+    - Pros: Highly scalable, good for larger networks.  
+    - Cons: Can be complex to manage, and if the root node fails, the entire network may be affected.   
 6. Hybrid Topology:
     A combination of two or more different topologies to leverage their strengths
 

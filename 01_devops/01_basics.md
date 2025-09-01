@@ -131,26 +131,26 @@ Horizontal scaling (or scale-out) increases system capacity by adding more machi
 - **Horizontal Scaling:** 
     **How To:** Add more servers or machines (nodes) to your system. 
     **Purpose:** To handle increased traffic and process more data by distributing tasks across multiple servers. 
-
-    **Pros:**
-    - Redundancy: Multiple machines provide fault tolerance, reducing the risk of a single point of failure. 
-    - Scalability: Can achieve theoretically unlimited capacity by adding more nodes. 
-    - Flexibility: Better suited for dynamic, growing environments and varying workloads. 
-    **Cons:**
-    - Complexity: Managing multiple machines and ensuring they work together can be more complex. 
-    - Load Balancing: Requires sophisticated load balancing to distribute tasks efficiently. 
+  
+    **Pros:**  
+    - Redundancy: Multiple machines provide fault tolerance, reducing the risk of a single point of failure.  
+    - Scalability: Can achieve theoretically unlimited capacity by adding more nodes.  
+    - Flexibility: Better suited for dynamic, growing environments and varying workloads.  
+    **Cons:**  
+    - Complexity: Managing multiple machines and ensuring they work together can be more complex.  
+    - Load Balancing: Requires sophisticated load balancing to distribute tasks efficiently.  
 
 - **Vertical Scaling:** 
     **How to:** Add more powerful hardware resources (like CPU, RAM, or storage) to a single existing server. 
     **Purpose:** To improve the performance of a single server by giving it more power to handle larger workloads. 
-
-    **Pros:**
-    - Simplicity: Easier to implement and manage, as operations remain on a single machine. 
-    - Performance: Ideal for applications that cannot easily be split across multiple servers and require high processing power on a single machine. 
-    **Cons:**
-    - Limits: There is an upper limit to how much you can upgrade a single machine due to physical and practical constraints. 
-    - Downtime: Upgrades often require taking the server offline, leading to downtime. 
-    - Single Point of Failure: A failure in the single, upgraded server can lead to significant system failure. 
+  
+    **Pros:**  
+    - Simplicity: Easier to implement and manage, as operations remain on a single machine.  
+    - Performance: Ideal for applications that cannot easily be split across multiple servers and require high processing power on a single machine.   
+    **Cons:**  
+    - Limits: There is an upper limit to how much you can upgrade a single machine due to physical and practical constraints.  
+    - Downtime: Upgrades often require taking the server offline, leading to downtime.  
+    - Single Point of Failure: A failure in the single, upgraded server can lead to significant system failure.  
 
 When to Use:
 - Horizontal Scaling:
