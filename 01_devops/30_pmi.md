@@ -85,7 +85,7 @@ On my previous project, I encountered a dissatisfied customer who was frustrated
 It involved documentation research or contacting responsible persons on the Client's side, issue investigation, providing a table of possible approaches and, finally, providing detailed breakdown for each Story. With this approach we were able to reduce and gradually eliminate the need for knowledge-sharing sessions from customer's side and were able to establish contact with key developers.  
   
 Throughout the process, I maintained open communication with the customer, providing regular updates on the progress for each ongoing issue. This transparency helped rebuild trust.  
-
+  
 This experience taught me the importance of empathy, swift problem-solving, and effective communication in handling dissatisfied customers.  
 
 ## 7. Describe a time when you had to multitask and manage multiple projects or tasks simultaneously. How did you stay organised and meet all your deadlines? <a name="question7"></a>
@@ -93,18 +93,38 @@ This experience taught me the importance of empathy, swift problem-solving, and 
 For this question, you should emphasise your time management, organisational skills, and ability to prioritise effectively. Hiring managers want to assess your capability to handle a demanding workload efficiently.  
   
 **Answer:**  
+  
+On my previous project I often had to work on different topics at the same time. To stay organised and meet all deadlines, I implemented a systematic approach. I started by creating a detailed task list, prioritising based on deadlines and importance.  
+  
+I then allocated specific time blocks for each task, ensuring I had uninterrupted periods for focused work. That means I allocated 1-2h timeslot at midday for sync-ups, morning hours were used for high importance topics and tasks with long-running tests, and hours after lunch were used for getting approvals and merging PRs (due to specific Zuul reconfiguration hours).  
+  
+Regular sync-ups helped maintain alignment and address any blockers. By maintaining a disciplined schedule, staying adaptable, and leveraging technology, I successfully managed multiple topics, meeting all deadlines effectively.  
 
 ## 8. Share an example of a time when you demonstrated leadership skills <a name="question8"></a>
 
 Answering the behavioural job interview question about demonstrating leadership skills and driving positive change within a team or organisation is crucial. It showcases your ability to lead, collaborate, and make a meaningful impact – a key aspect employers look for.  
   
 **Answer:**  
+  
+I has consistently taken an active role in refinement sessions, not only by refining items myself but also by supporting other developers in the process. I has essentially acted as the Tech Lead for Team Landau, ensuring that refinement sessions are productive and well-structured.  
+  
+Also, I provided valuable guidance and support to her colleagues, enabling them to gain a deeper technical understanding and work independently on these areas. These structured mentoring and knowledge-sharing efforts significantly strengthened the team's technical capabilities.  
+  
+By taking ownership of technical discussions and supporting the team’s development, I demonstrated leadership and technical expertise, making a lasting impact on the team’s growth.  
+  
+This experience highlighted my ability to lead, inspire change, and foster teamwork, ultimately contributing to positive outcomes.  
 
 ## 9. How did you motivate your team, set goals, and achieve success <a name="question9"></a>
 
 Answering the job interview question about taking the lead on a project or initiative is important for showcasing your leadership abilities. It demonstrates your capacity to inspire a team, establish objectives, and attain success – qualities highly sought after by employers.  
   
 **Answer:**  
+  
+On my last project one of my colleagues didn't have a lot of experience with tolls and technologies used on Client's side. So he was struggling with focus and communication, which made it challenging to track progress effectively.  
+  
+So, I stepped in to provide guidance, structure, and hands-on support. I leveraged in-person collaboration to align on tasks, address blockers, and ensure progress was made. It definetly helped to improve my colleague's engagement and communication while fostering a more structured way of working.  
+  
+This experience further strengthened my mentoring and leadership skills, making a positive impact on both the individual and the team. It demonstrats my ability to support colleagues while maintaining a productive and collaborative team environment.  
 
 ## 10.  <a name="question10"></a>
 
