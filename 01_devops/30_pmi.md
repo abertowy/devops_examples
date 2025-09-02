@@ -110,9 +110,9 @@ I was consistently taking an active role in refinement sessions, not only by ref
   
 Also, I provided valuable guidance and support to my colleagues, enabling them to gain a deeper technical understanding and work independently on these areas. These structured mentoring and knowledge-sharing efforts significantly strengthened the team's technical capabilities.  
   
-By taking ownership of technical discussions and supporting the team’s development, I demonstrated leadership and technical expertise, making a lasting impact on the team’s growth.  
+By taking ownership of technical discussions and supporting the development, I demonstrated leadership and technical expertise, making a lasting impact on the team’s growth.  
   
-This experience highlighted my ability to lead, inspire change, and foster teamwork, ultimately contributing to positive outcomes.  
+This experience highlighted my ability to lead, inspire for changes, and foster teamwork, ultimately contributing to positive outcomes.  
 
 ## 9. How did you motivate your team, set goals, and achieve success <a name="question9"></a>
 
@@ -120,11 +120,11 @@ Answering the job interview question about taking the lead on a project or initi
   
 **Answer:**  
   
-On my last project one of my colleagues didn't have a lot of experience with tolls and technologies used on Client's side. So he was struggling with focus and communication, which made it challenging to track progress effectively.  
+On my last project one of my colleagues didn't have a lot of experience with tolls and technologies used on Client's side. So he was struggling with his focus and communication, which made it challenging to track progress effectively.  
   
-So, I stepped in to provide guidance, structure, and hands-on support. I leveraged in-person collaboration to align on tasks, address blockers, and ensure progress was made. It definetly helped to improve my colleague's engagement and communication while fostering a more structured way of working.  
+So, I stepped in to provide guidance, structure, and hands-on support. I leveraged in-person collaboration to align on tasks, address blockers, and ensure progress was made. It definitely helped to improve my colleague's engagement and communication while fostering a more structured way of working.  
   
-This experience further strengthened my mentoring and leadership skills, making a positive impact on both the individual and the team. It demonstrats my ability to support colleagues while maintaining a productive and collaborative team environment.  
+This experience further strengthened my mentoring and leadership skills, making a positive impact on both the individual and the team. It demonstrates my ability to support colleagues while maintaining a productive and collaborative team environment.  
 
 ## 10.  <a name="question10"></a>
 
