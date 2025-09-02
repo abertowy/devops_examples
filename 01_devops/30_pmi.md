@@ -47,7 +47,7 @@ On my previous project, I was involved to maintenance of the one of critical per
   
 I insisted on the need for improvements and initiated a refactoring process that involved replacing a third party build tool based on bad written bash scripts and critically dependent on the naming and location of some configs with a highly configurable python-based tool written by myself with detailed logging, config templating and user-defined paths.  
   
-This helped make the build process more stable and predictable, improving traceability and maintainability. The ability to use this tool as a standalone tool in a local environment allowed developers to detect errors early in development, which resulted in a reduction in the load on the SI server.  
+This helped to make the build process more stable and predictable, improving traceability and maintainability. The ability to use this tool as a standalone tool in a local environment allowed developers to detect errors earlier during the development, that resulted in a reduction of the load on the CI server.  
   
 This experience taught me the importance of proactive problem-solving, data-driven decision-making, and perseverance.  
 
@@ -58,7 +58,7 @@ Hiring managers ask this behavioural question to evaluate your interpersonal ski
 **Answer:**  
 On my previous project we worked together with team A most of the time. Due to my proactive position and direct involvement in improving the build processes affecting Team C, I was able to establish good communication with the members of this team.  
   
-This has led to a gradual expansion of the scope of our tasks and, consequently, an increase in the qualifications and , later, a size our team. This also led to improved interaction with Team A and the customer in general, as well as increased customer trust in our team.  
+This led to a gradual growth of the scope of our tasks and, consequently, extended our expertise and, as follows, a size of our team. This improved our reputation as a problem solver within internal customer's teams.  
   
 This project taught me the importance of proactive planning, flexibility in the face of unforeseen challenges, and the value of maintaining strong professional relationships.  
 
@@ -94,9 +94,9 @@ For this question, you should emphasise your time management, organisational ski
   
 **Answer:**  
   
-On my previous project I often had to work on different topics at the same time. To stay organised and meet all deadlines, I implemented a systematic approach. I started by creating a detailed task list, prioritising based on deadlines and importance.  
+On my previous project I often had to work on different topics at the same time. To stay organised and meet all deadlines, I implemented a systematic approach. I started from creating a detailed task list, prioritising tasks by deadlines dates and importance.  
   
-I then allocated specific time blocks for each task, ensuring I had uninterrupted periods for focused work. That means I allocated 1-2h timeslot at midday for sync-ups, morning hours were used for high importance topics and tasks with long-running tests, and hours after lunch were used for getting approvals and merging PRs (due to specific Zuul reconfiguration hours).  
+Then I allocated specific time blocks for each task, ensuring I had uninterrupted periods for focused work. That means I allocated 1-2h timeslot at midday for sync-ups, morning hours were used for highly important topics and tasks with long-running tests, and hours after lunch were used for getting approvals and merging PRs (due to specific Zuul reconfiguration hours).  
   
 Regular sync-ups helped maintain alignment and address any blockers. By maintaining a disciplined schedule, staying adaptable, and leveraging technology, I successfully managed multiple topics, meeting all deadlines effectively.  
 
@@ -106,9 +106,9 @@ Answering the behavioural job interview question about demonstrating leadership 
   
 **Answer:**  
   
-I has consistently taken an active role in refinement sessions, not only by refining items myself but also by supporting other developers in the process. I has essentially acted as the Tech Lead for Team Landau, ensuring that refinement sessions are productive and well-structured.  
+I was consistently taking an active role in refinement sessions, not only by refining items by myself but also by supporting other developers in the process. I have essentially acted as the Tech Lead for Landau team, ensuring that refinement sessions are productive and well-structured.  
   
-Also, I provided valuable guidance and support to her colleagues, enabling them to gain a deeper technical understanding and work independently on these areas. These structured mentoring and knowledge-sharing efforts significantly strengthened the team's technical capabilities.  
+Also, I provided valuable guidance and support to my colleagues, enabling them to gain a deeper technical understanding and work independently on these areas. These structured mentoring and knowledge-sharing efforts significantly strengthened the team's technical capabilities.  
   
 By taking ownership of technical discussions and supporting the team’s development, I demonstrated leadership and technical expertise, making a lasting impact on the team’s growth.  
   
