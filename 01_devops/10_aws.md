@@ -43,7 +43,7 @@ AWS CodeCommit, CodeBuild, CodeDeploy, and CodePipeline are core services within
     Both ECS and EKS are container orchestration services for deploying, managing, and scaling containerized applications.  
     - **ECS:** A fully managed container orchestration service that simplifies running Docker containers.
     - **EKS:** A managed Kubernetes service that allows you to run Kubernetes on AWS without managing the Kubernetes control plane.  
-    Use it when:  
+    **Use it when:**  
     - **ECS:** When you need a managed solution for running Docker containers and prefer a simpler, AWS-native approach to container orchestration. Suitable for microservices architectures and applications that benefit from containerization without the complexity of managing Kubernetes.
     - **EKS:** When you require the full power and flexibility of Kubernetes, including its extensive ecosystem, portability across environments, and fine-grained control over container deployments. Ideal for complex, large-scale containerized applications or when already using Kubernetes on-premises.
 
