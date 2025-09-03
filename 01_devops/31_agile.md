@@ -1,4 +1,4 @@
-# Basics
+# AGILE
 
 ## Table of contents
 1. [What is Agile](#question1)
@@ -7,10 +7,6 @@
 4. [Difference between Scrum and Kanban](#question4)
 5. [Core Agile events and artifacts](#question5)
 6. [SOLID](#question6)
-7. [Some](#question7)
-8. [Some](#question8)
-9. [Some](#question9)
-10. [Some](#question10)
 
 ## 1. What is Agile <a name="question1"></a>
 
@@ -133,11 +129,3 @@ The acronym SOLID stands for:
     Dependency Inversion Principle (DIP): High-level modules should not depend on low-level modules. Both should depend on abstractions. Abstractions should not depend on details; details should depend on abstractions. This promotes loose coupling and easier modification. 
   
 By adhering to these principles, developers can create code that is more robust, scalable, and easier to manage over time.
-
-## 7.  <a name="question7"></a>
-
-## 8.  <a name="question8"></a>
-
-## 9.  <a name="question9"></a>
-
-## 10.  <a name="question10"></a>
