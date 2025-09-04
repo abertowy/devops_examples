@@ -76,17 +76,17 @@ VMs are an ideal choice when you need:
 - The ability to run custom software.
 - To use custom hosting configurations.
 
-1. Virtual machine scale sets:
+1. Virtual machine scale sets:  
     Virtual machine scale sets let you create and manage a group of identical, load-balanced VMs. If you simply created multiple VMs with the same purpose, you’d need to ensure they were all configured identically and then set up network routing parameters to ensure efficiency. You’d also have to monitor the utilization to determine if you need to increase or decrease the number of VMs.  
 
     Instead, with virtual machine scale sets, Azure automates most of that work. Scale sets allow you to centrally manage, configure, and update a large number of VMs in minutes. The number of VM instances can automatically increase or decrease in response to demand, or you can set it to scale based on a defined schedule. Virtual machine scale sets also automatically deploy a load balancer to make sure that your resources are being used efficiently. With virtual machine scale sets, you can build large-scale services for areas such as compute, big data, and container workloads.  
 
-2. Virtual machine availability sets:
+2. Virtual machine availability sets:  
     Availability sets are designed to ensure that VMs stagger updates and have varied power and network connectivity, preventing you from losing all your VMs with a single network or power failure.
     - Update domain: The update domain groups VMs that can be rebooted at the same time. This setup allows you to apply updates while knowing that only one update domain grouping is offline at a time. All of the machines in one update domain update. An update group going through the update process is given a 30-minute time to recover before maintenance on the next update domain starts.
     - Fault domain: The fault domain groups your VMs by common power source and network switch. By default, an availability set splits your VMs across up to three fault domains. This helps protect against a physical power or networking failure by having VMs in different fault domains (thus being connected to different power and networking resources).
 
-when to use VMs:
+**When to use VMs:**
 - During testing and development.
 - When running applications in the cloud.
 - When extending your datacenter to the cloud
@@ -116,7 +116,9 @@ Returns:
   "resourceGroup": "azure_devops_dft"
 }
 ```
-
+  
+-------
+  
 ```bash
 az vm extension set \
 --resource-group "azure_devops_dft" \
@@ -176,7 +178,7 @@ Azure Functions is an event-driven, serverless compute option that doesn’t req
 
 Functions are a key component of serverless computing. They're also a general compute platform for running any type of code. If the needs of the developer's app change, you can deploy the project in an environment that isn't serverless. This flexibility allows you to manage scaling, run on virtual networks, and even completely isolate the functions.
 
-Benefits:
+**Benefits:**
 - you're only concerned about the code running your service and not about the underlying platform or infrastructure.
 - Functions are commonly used when you need to perform work in response to an event (often via a REST request), timer, or message from another Azure service, and when that work can be completed quickly, within seconds or less.
 - Functions scale automatically based on demand, so they may be a good choice when demand is variable
@@ -198,13 +200,13 @@ App Service handles most of the infrastructure decisions you deal with in hostin
 - The built-in load balancing and traffic manager provide high availability.
 
 Types of app services:
-1. Web apps:
+1. **Web apps:**  
     App Service includes full support for hosting web apps by using ASP.NET, ASP.NET Core, Java, Ruby, Node.js, PHP, or Python. You can choose either Windows or Linux as the host operating system.
-2. API apps:
+2. **API apps:**  
     Much like hosting a website, you can build REST-based web APIs by using your choice of language and framework. You get full Swagger support and the ability to package and publish your API in Azure Marketplace. The produced apps can be consumed from any HTTP- or HTTPS-based client.
-3. WebJobs:
+3. **WebJobs:**  
     You can use the WebJobs feature to run a program (.exe, Java, PHP, Python, or Node.js) or script (.cmd, .bat, PowerShell, or Bash) in the same context as a web app, API app, or mobile app. They can be scheduled or run by a trigger. WebJobs are often used to run background tasks as part of your application logic.
-4. Mobile apps:
+4. **Mobile apps:**  
     Use the Mobile Apps feature of App Service to quickly build a back end for iOS and Android apps. With just a few actions in the Azure portal, you can:
     - Store mobile app data in a cloud-based SQL database.
     - Authenticate customers against common social providers, such as MSA, Google, X, and Facebook.
@@ -276,6 +278,9 @@ Returns:
   }
 ]
 ```
+  
+------
+  
 ```bash
 az network nsg rule list \
   --resource-group "azure_devops_dft" \
@@ -289,6 +294,9 @@ Name               Priority    Port    Access
 -----------------  ----------  ------  --------
 default-allow-ssh  1000        22      Allow
 ```
+  
+-----
+  
 ```bash
 az network nsg rule create \
   --resource-group "azure_devops_dft" \
@@ -322,6 +330,9 @@ Returns:
   "type": "Microsoft.Network/networkSecurityGroups/securityRules"
 }
 ```
+  
+-----
+  
 ```bash
 az network nsg rule list \
   --resource-group "azure_devops_dft" \
@@ -348,7 +359,7 @@ az group delete --name azure_devops_dft
 
 A virtual private network (VPN) uses an encrypted tunnel within another network. VPNs are typically deployed to connect two or more trusted private networks to one another over an untrusted network (typically the public internet). Traffic is encrypted while traveling over the untrusted network to prevent eavesdropping or other attacks. VPNs can enable networks to safely and securely share sensitive information.  
 
-1. VPN gateways:
+1. **VPN gateways:**  
     A VPN gateway is a type of virtual network gateway. Azure VPN Gateway instances are deployed in a dedicated subnet of the virtual network and enable the following connectivity:
     - Connect on-premises datacenters to virtual networks through a site-to-site connection.
     - Connect individual devices to virtual networks through a point-to-site connection.
@@ -365,16 +376,16 @@ A virtual private network (VPN) uses an encrypted tunnel within another network.
     - Multisite connections
     - Coexistence with an Azure ExpressRoute gateway
 
-2. High-availability scenarios:
+2. **High-availability scenarios:**  
     If you’re configuring a VPN to keep your information safe, you also want to be sure that it’s a highly available and fault tolerant VPN configuration. There are a few ways to maximize the resiliency of your VPN gateway.
 
-    - Active/standby:
+    - **Active/standby:**  
         By default, VPN gateways are deployed as two instances in an active/standby configuration, even if you only see one VPN gateway resource in Azure. When planned maintenance or unplanned disruption affects the active instance, the standby instance automatically assumes responsibility for connections without any user intervention. Connections are interrupted during this failover, but they typically restore within a few seconds for planned maintenance and within 90 seconds for unplanned disruptions.
-    - Active/active:
+    - **Active/active:**  
         With the introduction of support for the BGP routing protocol, you can also deploy VPN gateways in an active/active configuration. In this configuration, you assign a unique public IP address to each instance. You then create separate tunnels from the on-premises device to each IP address. You can extend the high availability by deploying an additional VPN device on-premises.
-    - ExpressRoute failover:
+    - **ExpressRoute failover:**  
         ExpressRoute circuits have resiliency built in. However, they aren't immune to physical problems that affect the cables delivering connectivity or outages that affect the complete ExpressRoute location. In high-availability scenarios, where there's risk associated with an outage of an ExpressRoute circuit, you can also provision a VPN gateway that uses the internet as an alternative method of connectivity.
-    - Zone-redundant gateways:
+    - **Zone-redundant gateways:**  
         In regions that support availability zones, VPN gateways and ExpressRoute gateways can be deployed in a zone-redundant configuration. This configuration brings resiliency, scalability, and higher availability to virtual network gateways. Deploying gateways in Azure availability zones physically and logically separates gateways within a region while protecting your on-premises network connectivity to Azure from zone-level failures. These gateways require different gateway stock keeping units (SKUs) and use Standard public IP addresses instead of Basic public IP addresses.
 
 ## 11. Azure ExpressRoute <a name="question11"></a>
@@ -383,7 +394,7 @@ Azure ExpressRoute lets you extend your on-premises networks into the Microsoft 
 
 Connectivity can be from an any-to-any (IP VPN) network, a point-to-point Ethernet network, or a virtual cross-connection through a connectivity provider at a colocation facility. ExpressRoute connections don't go over the public Internet. This setup allows ExpressRoute connections to offer more reliability, faster speeds, consistent latencies, and higher security than typical connections over the Internet.
 
-Benefits:
+**Benefits:**  
 - Connectivity to Microsoft cloud services across all regions in the geopolitical region.
 - Global connectivity to Microsoft services across all regions with the ExpressRoute Global Reach.
 - Dynamic routing between your network and Microsoft via Border Gateway Protocol (BGP).
@@ -401,7 +412,7 @@ ExpressRoute uses the BGP. BGP is used to exchange routes between on-premises ne
 - **Any-to-any connection:** integrate your wide area network (WAN) with Azure by providing connections to your offices and datacenters. Azure integrates with your WAN connection to provide a connection like you would have between your datacenter and any branch offices.
 - **Directly from ExpressRoute sites:** You can connect directly into the Microsoft's global network at a peering location strategically distributed across the world. ExpressRoute Direct provides dual 100 Gbps or 10-Gbps connectivity, which supports Active/Active connectivity at scale.
 
-**Security considerations:**
+**Security considerations:**  
 With ExpressRoute, your data doesn't travel over the public internet, reducing the risks associated with internet communications. ExpressRoute is a private connection from your on-premises infrastructure to your Azure infrastructure. Even if you have an ExpressRoute connection, DNS queries, certificate revocation list checking, and Azure Content Delivery Network requests are still sent over the public internet.
 
 ## 12. Azure DNS <a name="question12"></a>
@@ -409,17 +420,17 @@ With ExpressRoute, your data doesn't travel over the public internet, reducing t
 Azure DNS is a hosting service for DNS domains that provides name resolution by using Microsoft Azure infrastructure. By hosting your domains in Azure, you can manage your DNS records using the same credentials, APIs, tools, and billing as your other Azure services.  
 
 **Benefits:**
-- Reliability and performance:
+- **Reliability and performance:**  
     DNS domains in Azure DNS are hosted on Azure's global network of DNS name servers, providing resiliency and high availability. Azure DNS uses anycast networking, so the closest available DNS server answers each DNS query, providing fast performance and high availability for your domain.
-- Security:
+- **Security:**  
     - Azure role-based access control (Azure RBAC) to control who has access to specific actions for your organization.
     - Activity logs to monitor how a user in your organization modified a resource or to find an error when troubleshooting.
     - Resource locking to lock a subscription, resource group, or resource. Locking prevents other users in your organization from accidentally deleting or modifying critical resources.
-- Ease of Use:
+- **Ease of Use:**  
     Azure DNS is integrated in the Azure portal and uses the same credentials, support contract, and billing as your other Azure services.
-- Customizable virtual networks:
+- **Customizable virtual networks:**  
     Azure DNS also supports private DNS domains. This feature allows you to use your own custom domain names in your private virtual networks, rather than being stuck with the Azure-provided names.
-- Alias records:
+- **Alias records:**  
     You can use an alias record set to refer to an Azure resource, such as an Azure public IP address, an Azure Traffic Manager profile, or an Azure Content Delivery Network (CDN) endpoint. If the IP address of the underlying resource changes, the alias record set seamlessly updates itself during DNS resolution. The alias record set points to the service instance, and the service instance is associated with an IP address.
 
-You can't use Azure DNS to buy a domain name. For an annual fee, you can buy a domain name by using App Service domains or a third-party domain name registrar. Once purchased, your domains can be hosted in Azure DNS for record management.
+**You can't use Azure DNS to buy a domain name.** For an annual fee, you can buy a domain name by using App Service domains or a third-party domain name registrar. Once purchased, your domains can be hosted in Azure DNS for record management.
