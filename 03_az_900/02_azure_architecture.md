@@ -1,4 +1,4 @@
-# Basics
+# Azure Architecture
 
 ## Table of contents
 1. [What is Microsoft Azure](#question1)
