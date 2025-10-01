@@ -7,6 +7,8 @@
 4. [Azure Policy resources](#question4)
 5. [Azure policy definition example](#question5)
 6. [Evaluation of resources through Azure Policy](#question6)
+7. [Azure RBAC](#question7)
+8. [Self-service password reset](#question8)
 
 ## 1. Cloud Adoption Framework for Azure <a name="question1"></a>
 
@@ -180,7 +182,7 @@ Use the **Policy exemptions** feature to **exempt a resource hierarchy or an ind
     - the machine configuration resource provider is updated with compliance details by a managed resource
     - on-demand scan
 
-2. **Evaluation timing:**
+2. **Evaluation timing:**  
     **Compliance scans triggers:**  
     - **Automatic full scan** - A full compliance scan is triggered automatically every 24 hours.
     - **Manual scan for Brownfield scenarios** - In cases where a new policy is applied to existing resources (Brownfield scenarios), you can manually trigger a compliance scan by running az policy state trigger-scan.
@@ -202,7 +204,7 @@ Use the **Policy exemptions** feature to **exempt a resource hierarchy or an ind
     - Protected (resource covered under an assignment with a denyAction effect)
     - Exempted Unknown (default state for definitions with a manual effect)
 
-3. **Enforcement Mode:**
+3. **Enforcement Mode:**  
     `enforcementMode` is a property of a policy assignment that lets you deactivate the enforcement of certain policy effects. This mode allows you to **test the policy's outcome** on existing resources without initiating the policy effect or triggering entries in the Azure Activity log. The `enforcementMode` can be changed to `Enabled` after the policy is thoroughly tested.  
     **Remediation tasks** can be **started** for `deployIfNotExists` policies, even when `enforcementMode` is set to `DoNotEnforce`.  
     The **best practices** framework focuses on **minimizing the impact of policy changes** while ensuring compliance, and it includes two aspects:  
@@ -222,3 +224,50 @@ Use the **Policy exemptions** feature to **exempt a resource hierarchy or an ind
     6. **Repeat for production rings** - After the policy is validated in a nonproduction environment, gradually deploy it to production environments, starting with a smaller subset (ring) and expanding the scope over time.
 
 Azure Policy events allow applications to react to state changes. This integration is done without the need for complicated code or expensive and inefficient polling services. **Events from Azure Policy** (Event Source) are pushed through Microsoft **Azure Event Grid** to **Event Handlers**.
+
+## 7. Azure RBAC <a name="question7"></a>
+
+**Azure role-based access control (RBAC)** is an **authorization system** built on Azure Resource Manager that provides fine-grained access management for resources in Azure.  
+You can grant access by assigning the appropriate Azure role to users, groups, and applications at a certain scope. The scope of a role assignment can be at any level. A role assigned at a parent scope also grants access to the child scopes contained within it.  
+**Azure RBAC** in the Azure portal can be configured in **Access control (IAM)**, also known as **identity and access management**.  
+To create a role assignment, you need three elements: a security principal, a role definition, and a scope.  
+- **Security principal** (who): a user, group, or application to which you want to grant access
+- **Role definition** (what): a collection of permissions (`read`, `write`, `delete`)  
+    Built-in roles:  
+    - **Owner**: Has full access to all resources, including the right to delegate access to others.
+    - **Contributor**: Can create and manage all types of Azure resources, but can’t grant access to others.
+    - **Reader**: Can view existing Azure resources.
+    - **User Access Administrator**: Lets you manage user access to Azure resources.
+- **Scope** (where): level where the access applies
+
+A **role assignment** is the process of binding a role to a security principal at a particular scope for the purpose of granting access. To grant access, you'll create a role assignment. To revoke access, you'll remove a role assignment.  
+**Azure RBAC** is an allow model.  
+**Azure RBAC** has something called `NotActions` permissions. You can use `NotActions` to create a set of **not allowed permissions**. The access a role grants—the effective permissions—is computed by **subtracting** the `NotActions` operations from the `Actions` operations.  
+
+## 8. Self-service password reset <a name="question8"></a>
+
+**Self-service password reset (SSPR)** reduces the load on administrators and minimizes the productivity impact of a forgotten or expired password. With SSPR, users can reset their passwords in a web browser or from a Windows sign-in screen to regain access to Azure, Microsoft 365, and any other application that uses Microsoft Entra ID for authentication.  
+  
+The **reset portal** takes these steps:
+1. **Localization**: The portal checks the browser's locale setting and renders the SSPR page in the appropriate language.
+2. **Verification**: The user enters their username and passes a CAPTCHA to ensure that it's a user and not a bot.
+3. **Authentication**: The user enters the required data to authenticate their identity. They might enter a code or answer security questions.
+4. **Password reset**: If the user passes the authentication tests, they can enter a new password and confirm it.
+5. **Notification**: A message is sent to the user to confirm the reset.
+
+### Authenticate a password reset (minimum: 1 or 2)
+1. Mobile app notification (Microsoft Authenticator app)
+2. Mobile app code (Microsoft Authenticator app)
+3. Email
+4. Mobile phone
+5. Office phone
+6. Security questions
+
+> In trial Microsoft Entra organizations, phone call options aren't supported.
+
+### Accounts associated with administrator roles
+
+1. A strong, two-method authentication policy is always applied to accounts with an administrator role, regardless of your configuration for other users.
+2. The **security-question** method **isn't available** to accounts associated with an administrator role.
+
+License requirements: Microsoft Entra ID, Premium P1 and Premium P2. Writeback support is available in Microsoft Entra ID P1 or P2. It's also available with Microsoft 365 Apps for business.  
