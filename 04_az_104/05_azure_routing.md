@@ -403,3 +403,46 @@ If you're using **Azure App Service** to host the back-end application, you $\co
 ## 10. Azure Application Gateway routing <a name="question10"></a>
 
 When the gateway routes a client request to a web server in the back-end pool, it uses a set of rules configured for the gateway to determine where the request should go. There are two primary methods of routing this client request traffic: path-based routing and multiple-site routing.  
+
+- $\color{Green}\large{\textsf{Path-based routing}}$: sends requests with different URL paths to different pools of back-end servers.  
+    **Example**: you could direct requests with the path `/video/*` to a back-end pool containing servers that are optimized to handle video streaming, and direct `/images/*` requests to a pool of servers that handle image retrieval.
+- $\color{Green}\large{\textsf{Multiple-site routing}}$: configures more than one web application on the same Application Gateway instance. In a multi-site configuration, you register multiple domain name system names (`CNAMEs`) for the IP address of the application gateway, specifying the name of each site. **Application Gateway** uses separate listeners to wait for requests for each site. Each listener passes the request to a different rule, which can route the requests to servers in a different back-end pool.  
+    Example: you could direct all requests for `http://contoso.com` to servers in one back-end pool, and requests for `http://fabrikam.com` to another back-end pool.  
+    > Multi-site configurations are useful for supporting multitenant applications, where each tenant has its own set of virtual machines or other resources hosting a web application.
+
+### Application Gateway routing features
+
+- $\color{Green}\large{\textsf{Redirection}}$: it can be used to another site, or from HTTP to HTTPS.
+- $\color{Green}\large{\textsf{Rewrite HTTP headers}}$: allow the client and server to pass parameter information with the request or the response.
+- $\color{Green}\large{\textsf{Custom error pages}}$: allows you to create custom error pages instead of displaying default error pages. You can use your own branding and layout using a custom error page.
+
+### Application Gateway: TLS/SSL termination
+
+When you terminate the `TLS/SSL` connection at the application gateway, it offloads the CPU-intensive `TLS/SSL` termination workload from your servers. Also, $\color{Green}\large{\textsf{you don’t need to install certificates and configure TLS/SSL on your servers}}$.  
+If you need end-to-end encryption, Application Gateway can $\color{Green}\large{\textsf{decrypt the traffic on the gateway by using your private key, then re-encrypt again with the public key of the service running in the back-end pool}}$.  
+Traffic enters the gateway through a front-end port. You can open many ports, and Application Gateway can receive messages on any of these ports. A listener is the first thing that your traffic meets when entering the gateway through a port. The listener is set up to listen for a specific host name, and a specific port on a specific IP address. The listener can use an TLS/SSL certificate to decrypt the traffic that enters the gateway. The listener then uses a rule that you define to direct the incoming requests to a back-end pool.  
+Exposing your website or web application through the application gateway also means that you don't directly connect your servers to the web. You're exposing only port 80 or port 443 on the application gateway, which is then forwarded to the back-end pool server. In this configuration, your $\color{Green}\large{\textsf{web servers aren't directly accessible from the internet, which reduces the attack surface of your infrastructure}}$.  
+
+### Application Gateway: Health probes
+
+Health probes determine which servers are available for load-balancing in a back-end pool. The Application Gateway uses a health probe to send a request to a server. When the server returns an HTTP response with a status code between 200 and 399, the server is considered healthy. If you don't configure a health probe, Application Gateway creates a default probe that waits for 30 seconds before deciding that a server is unavailable. Health probes ensure that traffic isn't directed to a nonresponsive or failed web endpoint in the back-end pool.
+
+### Application Gateway: Autoscaling
+
+Application Gateway supports autoscaling, and can scale up or down based on changing traffic load patterns. Autoscaling also removes the requirement to choose a deployment size or instance count during provisioning.
+
+### WebSocket and HTTP/2 traffic
+
+Application Gateway provides native support for the WebSocket and HTTP/2 protocols. $\color{Green}\large{\textsf{The WebSocket and HTTP/2 protocols enable full duplex communication between a server and a client over a long-running Transmission Control Protocol (TCP) connection}}$. This type of communication is more interactive between the web server and the client, and can be bidirectional without the need for polling as required in HTTP-based implementations. These protocols have low overhead (unlike HTTP) and can reuse the same TCP connection for multiple request/responses resulting in a more efficient resource utilization. These protocols are designed to work over traditional HTTP ports of 80 and 443.
+
+### When to $\color{Green}\large{\textsf{use}}$ Azure Application Gateway
+
+- Azure Application Gateway routing allows traffic to be directed from an endpoint in Azure to a back-end pool made up of servers running in Adatum’s on-premises datacenter. The health-probe functionality of Azure Application Gateway ensures that traffic isn't being directed to any server that becomes unavailable.
+- Azure Application Gateway TLS termination functionality reduces the amount of CPU capacity that servers in the back-end pool allocate to encryption and decryption operations.
+- Azure Application Gateway allows Adatum to use a web application firewall to block cross-site scripting and SQL injection traffic before it reaches servers in the back-end pool.
+- Azure Application Gateway supports session affinity. This support is required because the several web applications deployed by Adatum use user session state information stored locally on individual servers in the back-end pool.
+
+### When $\color{Red}\large{\textsf{not to use}}$ Azure Application Gateway
+
+Azure Application Gateway isn’t appropriate if you have a $\color{Green}\large{\textsf{web application that doesn’t require load balancing}}$. For example, if you have a web application that only receives a small amount of traffic and the existing infrastructure already competently deals with the existing load, there's no need to deploy a back-end pool of web apps or virtual machines and no need for Application Gateway.  
+Azure provides other load balancing solutions, including $\color{Yellow}\large{\textsf{Azure Front Door}}$, $\color{Yellow}\large{\textsf{Azure Traffic Manager}}$, and $\color{Yellow}\large{\textsf{Azure Load Balancer}}$.
