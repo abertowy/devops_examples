@@ -11,6 +11,8 @@
 8. [Azure Load Balancer: Use Cases](#question8)
 9. [Azure Application Gateway](#question9)
 10. [Azure Application Gateway routing](#question10)
+11. [Azure Front Door](#question11)
+12. [Azure Network Watcher](#question12)
 
 ## 1. Azure routing <a name="question1"></a>
 
@@ -419,7 +421,7 @@ When the gateway routes a client request to a web server in the back-end pool, i
 ### Application Gateway: TLS/SSL termination
 
 When you terminate the `TLS/SSL` connection at the application gateway, it offloads the CPU-intensive `TLS/SSL` termination workload from your servers. Also, $\color{Green}\large{\textsf{you don’t need to install certificates and configure TLS/SSL on your servers}}$.  
-If you need end-to-end encryption, Application Gateway can $\color{Green}\large{\textsf{decrypt the traffic on the gateway by using your private key, then re-encrypt again with the public key of the service running in the back-end pool}}$.  
+If you need end-to-end encryption, Application Gateway can $\color{Green}\large{\textsf{decrypt the traffic on the gateway by using your private key,}}$ $\color{Green}\large{\textsf{then re-encrypt again with the public key of the service running in the back-end pool}}$.  
 Traffic enters the gateway through a front-end port. You can open many ports, and Application Gateway can receive messages on any of these ports. A listener is the first thing that your traffic meets when entering the gateway through a port. The listener is set up to listen for a specific host name, and a specific port on a specific IP address. The listener can use an TLS/SSL certificate to decrypt the traffic that enters the gateway. The listener then uses a rule that you define to direct the incoming requests to a back-end pool.  
 Exposing your website or web application through the application gateway also means that you don't directly connect your servers to the web. You're exposing only port 80 or port 443 on the application gateway, which is then forwarded to the back-end pool server. In this configuration, your $\color{Green}\large{\textsf{web servers aren't directly accessible from the internet, which reduces the attack surface of your infrastructure}}$.  
 
@@ -433,7 +435,7 @@ Application Gateway supports autoscaling, and can scale up or down based on chan
 
 ### WebSocket and HTTP/2 traffic
 
-Application Gateway provides native support for the WebSocket and HTTP/2 protocols. $\color{Green}\large{\textsf{The WebSocket and HTTP/2 protocols enable full duplex communication between a server and a client over a long-running Transmission Control Protocol (TCP) connection}}$. This type of communication is more interactive between the web server and the client, and can be bidirectional without the need for polling as required in HTTP-based implementations. These protocols have low overhead (unlike HTTP) and can reuse the same TCP connection for multiple request/responses resulting in a more efficient resource utilization. These protocols are designed to work over traditional HTTP ports of 80 and 443.
+Application Gateway provides native support for the WebSocket and HTTP/2 protocols. $\color{Green}\large{\textsf{The WebSocket and HTTP/2 protocols enable full duplex communication between a server and a client}}$ $\color{Green}\large{\textsf{over a long-running Transmission Control Protocol (TCP) connection}}$. This type of communication is more interactive between the web server and the client, and can be bidirectional without the need for polling as required in HTTP-based implementations. These protocols have low overhead (unlike HTTP) and can reuse the same TCP connection for multiple request/responses resulting in a more efficient resource utilization. These protocols are designed to work over traditional HTTP ports of 80 and 443.
 
 ### When to $\color{Green}\large{\textsf{use}}$ Azure Application Gateway
 
@@ -446,3 +448,134 @@ Application Gateway provides native support for the WebSocket and HTTP/2 protoco
 
 Azure Application Gateway isn’t appropriate if you have a $\color{Green}\large{\textsf{web application that doesn’t require load balancing}}$. For example, if you have a web application that only receives a small amount of traffic and the existing infrastructure already competently deals with the existing load, there's no need to deploy a back-end pool of web apps or virtual machines and no need for Application Gateway.  
 Azure provides other load balancing solutions, including $\color{Yellow}\large{\textsf{Azure Front Door}}$, $\color{Yellow}\large{\textsf{Azure Traffic Manager}}$, and $\color{Yellow}\large{\textsf{Azure Load Balancer}}$.
+
+## 11. Azure Front Door <a name="question11"></a>
+
+### Example scenario
+
+Suppose you work for an organization that hosts several critical public-facing consumer applications in Azure. You want to ensure your applications are highly available and perform well. In addition, you want to ensure they're protected by appropriate security measures.  
+In the past, you might have used a content delivery network (CDN) to help ensure your application's availability and performance. You also might have implemented features to help manage security, such as a web application firewall. However, with Azure Front Door, you can combine these components into a single entity with simple pricing.  
+
+### Modern cloud CDN
+
+A secure, modern cloud CDN provides a distributed platform of servers. This helps minimize latency when users are accessing webpages. Historically, IT staff might have used a CDN and a web-application firewall to control HTTP and HTTPS traffic flowing to and from target applications.  
+
+| Product | Description |
+|---------|-------------|
+| Azure Front Door | Enables an entry point to your apps positioned in the Microsoft global edge network. Provides faster, more secure, and scalable access to your web applications |
+| Azure Content Delivery Network | Delivers high-bandwidth content to your users by caching their content at strategically placed physical nodes around the world |
+| Azure Web Application Firewall | Helps provide centralized, greater protection for web applications from common exploits and vulnerabilities |
+
+$\color{Green}\large{\textsf{Azure Front Door (classic)}}$ is the entry level. Existing Azure customers often bolster these features with Azure Content Delivery Network, and Azure Web Application Firewall.
+
+$\color{Green}\large{\textsf{Azure Front Door Standard}}$ provides the capabilities of Azure Front Door (Classic), Azure Content Delivery Network, and Azure Web Application Firewall. Azure Front Door Standard includes:  
+- Content-delivery optimization
+- Static and dynamic content acceleration
+- Global load balancing
+- Secure Sockets Layer (SSL) offload
+- Domain and certificate management
+- Enhanced traffic analytics
+- Basic security capabilities
+
+$\color{Green}\large{\textsf{Azure Front Door Premium}}$ is security optimized and includes the following extra features:  
+- Extensive security capabilities across Web Application Firewall
+- Private link support
+- Integration with Microsoft Threat Intelligence and security analytics
+
+Azure Front Door $\color{Green}\large{\textsf{optimizes access times to content}}$.  
+Example: users are connecting to content hosted in the custom domain contoso.com. Azure Front Door is implemented at multiple edge locations. Azure Front Door provides CDN features that optimize access to backend content, while the firewall helps to secure that access.  
+
+### How Azure Front Door optimizes content delivery
+
+Azure Front Door uses the anycast protocol with split TCP at layer 7 to route HTTP/S client requests to the most available and fastest application backend. The way Azure Front Door routes requests depend on the routing method you select and on backend health.  
+
+| Routing method | Description |
+|-----|-----|
+| Latency | Helps ensure requests are sent to the lowest latency backends, within an acceptable sensitivity range. |
+| Priority | Uses administrator-assigned priorities to your backends when you want to configure a primary backend to service all traffic. |
+| Weighted | Uses administrator-assigned weights to your backends when you want to distribute traffic across a set of backends. |
+| Session Affinity | Allows you to configure session affinity for your frontend hosts or domains. This helps ensure requests from the same end user are sent to the same backend. |
+
+Azure Front Door also provides backend health monitoring options.  
+> Azure Front Door is resilient to failures, including failures of an entire Azure region due to the many edge locations strategically placed around the world.
+
+A CDN is a distributed collection of web servers. These servers deliver web-based content to users. To help minimize latency, CDN's use point-of-presence locations that are next to users to cache content.  
+Azure Front Door provides the following key CDN features:  
+- Dynamic site acceleration
+- CDN caching rules
+- HTTPS custom domain support
+- Azure diagnostics logs
+- File compression
+- Geo-filtering
+
+### How Azure Front Door helps secure content
+
+Azure Front Door provides web-application firewall capabilities to help protect your web applications from exploits and vulnerabilities. Managing security for your applications can be challenging because web applications are increasingly targeted.  
+Azure Front Door operates at the network's edge, close to potential attacks. This helps prevent attacks before they can enter your network. Azure Front Door's web application firewall is based on policies you can associate with one or more instances of Azure Front Door. These firewall policies consist of:  
+- Managed rule sets, which are a collection of preconfigured rules.
+- Custom rules that you can configure.
+
+> If present, custom rules are processed first.
+
+### When to use Azure Front Door
+
+- $\color{Green}\large{\textsf{Scalability}}$:  
+    Organizations that don't host global, scalable web applications might not benefit from implementing Azure Front Door. However, if it builds, operates, and scales out dynamic web applications and static content, it can benefit from the use of the different Azure Front Door tiers.  
+    Consider using Azure Front Door when you want to:  
+    - Define, manage, and monitor your web traffic's global routing.
+    - Optimize for top-tier, end-user performance and reliability through quick global failover.  
+
+- $\color{Green}\large{\textsf{Pricing}}$  
+    Azure Front Door billing is based on outbound data transfers, inbound data transfers, and routing rules. If you implement Azure Web Application Firewall and Azure Content Delivery Network, pricing includes:
+    - A monthly charge per policy.
+    - Other charges for custom rules and managed rule sets.
+
+    Azure Front Door Standard/Premium billing is based on the following criteria:
+    - A fixed charge calculated on hourly basis
+    - Outbound data transfers
+    - Inbound data transfers
+    - Requests incoming from client to Azure Front Door points of presence
+
+- $\color{Green}\large{\textsf{Content delivery}}$  
+    Consider using Azure Front Door Standard when you want to:
+    - Optimize your content delivery.
+    - Provide for both static and dynamic content acceleration.
+    - Support global load balancing.
+    - Implement SSL offload.
+    - Implement domain and certificate management.
+    - Benefit from enhanced traffic analytics.
+    - Benefit from basic security capabilities.
+
+- $\color{Green}\large{\textsf{Security}}$  
+    Consider using Azure Front Door Premium when you need Azure Front Door Standard features and require:
+    - Extensive security capabilities across Web Application Firewall.
+    - BOT protection.
+    - Private Link support.
+    - Integration with Microsoft Threat Intelligence and security analytics.
+
+> Azure Web Application Firewall pricing is included in Premium tier.
+
+## 12. Azure Network Watcher <a name="question12"></a>
+
+Azure Network Watcher provides a suite of tools to monitor, diagnose, view metrics, and enable or disable logs for Azure IaaS resources. Network Watcher enables you to monitor and repair the network health of IaaS products like virtual machines (VMs), virtual networks (VNets), application gateways, load balancers, etc. Network Watcher isn't designed or intended for PaaS monitoring or Web analytics.  
+Network Watcher consists of three major sets of tools and capabilities:
+
+1. $\color{Green}\large{\textsf{Monitoring}}$  
+    - $\color{Yellow}\large{\textsf{Topology}}$: provides a visualization of the entire network for understanding network configuration. It provides an interactive interface to view resources and their relationships in Azure spanning across multiple subscriptions, resource groups, and locations. At the beginning of the troubleshooting process, this tool helps you visualize all of the elements involved in the problem, allowing you to find something that isn't apparent by looking at the contents of resource groups.
+    - $\color{Yellow}\large{\textsf{Connection monitor}}$: provides end-to-end connection monitoring for Azure and hybrid endpoints. It helps you understand network performance between various endpoints in your network infrastructure. You can use connection monitor to verify that two IaaS VMs that host the components of a multi-tier application can communicate with each other. You can also use it to verify connectivity in hybrid scenarios.
+    > You can use the Connection Monitor tool to measure the latency between resources.
+
+    > Connection Monitor can detect changes that affect connectivity, such as network configuration changes or modifications to NSG rules.
+
+2. $\color{Green}\large{\textsf{Network diagnostic tools}}$  
+    - $\color{Yellow}\large{\textsf{IP flow verify}}$: allows you to detect traffic filtering issues at a virtual machine level. It checks if a packet is allowed or denied to or from an IP address (IPv4 or IPv6 address). It also tells you which security rule allowed or denied the traffic.
+    - $\color{Yellow}\large{\textsf{NSG diagnostics}}$ allows you to detect traffic filtering issues at a virtual machine, virtual machine scale set, or application gateway level. It checks if a packet is allowed or denied to or from an IP address, IP prefix, or a service tag. It tells you which security rule allowed or denied the traffic. It also allows you to add a new security rule with a higher priority to allow or deny the traffic.
+    - $\color{Yellow}\large{\textsf{Next hop}}$ allows you to detect routing issues. It checks if traffic is routed correctly to the intended destination. It provides you with information about the Next hop type, IP address, and Route table ID for a specific destination IP address.
+    - $\color{Yellow}\large{\textsf{Effective security rules}}$ allows you to view the effective security rules applied to a network interface. It shows you all security rules applied to the network interface, the subnet the network interface is in, and the aggregate of both.
+    - $\color{Yellow}\large{\textsf{Connection troubleshoot}}$ enables you to test a connection between a virtual machine, a virtual machine scale set, an application gateway, or a Bastion host and a virtual machine, an FQDN, a URI, or an IPv4 address. The test returns similar information returned when using the connection monitor tool, but tests the connection at a point in time instead of monitoring it over time, as connection monitor does.
+    - $\color{Yellow}\large{\textsf{Packet capture}}$ allows you to remotely create packet capture sessions to record all network traffic to and from a virtual machine (VM) or a virtual machine scale set.
+    - $\color{Yellow}\large{\textsf{VPN troubleshoot}}$ enables you to troubleshoot virtual network gateways and their connections.
+
+3. $\color{Green}\large{\textsf{Traffic}}$  
+    - $\color{Yellow}\large{\textsf{Flow logs}}$ allows you to log information about your Azure IP traffic and stores the data in Azure storage. You can log IP traffic flowing through a network security group or Azure virtual network.
+    - $\color{Yellow}\large{\textsf{Traffic analytics}}$ provides rich visualizations of flow logs data.
