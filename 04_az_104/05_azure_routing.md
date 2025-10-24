@@ -10,7 +10,7 @@
 7. [How Azure Load Balancer works](#question7)
 8. [Azure Load Balancer: Use Cases](#question8)
 9. [Azure Application Gateway](#question9)
-10. [Some](#question10)
+10. [Azure Application Gateway routing](#question10)
 
 ## 1. Azure routing <a name="question1"></a>
 
@@ -390,4 +390,16 @@ You can configure session stickiness if you need to ensure that all requests for
 The **web application firewall (WAF)** is an **optional component** that **handles incoming requests before they reach a listener**. The **web application firewall checks each request for many common threats based on the Open Web Application Security Project (OWASP)**. Common threats include: **SQL-injection**, **Cross-site scripting**, **Command injection**, **HTTP request smuggling**, **HTTP response splitting**, **Remote file inclusion**, **Bots**, **crawlers**, and scanners, and HTTP protocol violations and anomalies.  
 **OWASP** defines a **set of generic rules for detecting attacks**. These rules are referred to as the **Core Rule Set** (CRS). The rule sets are under continuous review as attacks evolve in sophistication. **WAF supports four rule sets: CRS 3.2, 3.1, 3.0 and 2.2.9**. CRS 3.1 is the default. If necessary, you can opt to select only specific rules in a rule set, targeting certain threats. Additionally, you can customize the firewall to specify which elements in a request to examine, and limit the size of messages to prevent massive uploads from overwhelming your servers.  
 
-## 10.  <a name="question10"></a>
+### Back-end pools
+
+A **back-end pool** is a collection of web servers that can be made up of: a $\color{Green}{\textsf{fixed set of virtual machines}}$, a $\color{Green}{\textsf{virtual machine scale-set}}$, an $\color{Green}{\textsf{app hosted by Azure App Services}}$, or a collection of $\color{Green}{\textsf{on-premises servers}}$.  
+Each **back-end pool** has an **associated load balancer** that distributes work across the pool. When configuring the pool, you provide the **IP address or name of each web server**. **All the servers** in the back-end pool should be **configured in the same way**, including their security settings.  
+If you're using `TLS/SSL`, the back-end pool has an $\color{Green}{\textsf{HTTP setting that references a certificate}}$ used to authenticate the back-end servers. $\color{Green}{\textsf{The gateway re-encrypts the traffic by using this certificate}}$ before sending it to one of your servers in the back-end pool.  
+If you're using **Azure App Service** to host the back-end application, you $\color{Green}{\textsf{don't need to install any certificates in Application Gateway}}$ to connect to the back-end pool. All communications are automatically encrypted. Application Gateway trusts the servers because Azure manages them.  
+**Application Gateway** uses a rule to specify how to direct the messages that it receives on its incoming port to the servers in the back-end pool. If the servers are using `TLS/SSL`, you must **configure the rule** to indicate:  
+- That your servers **expect traffic** through the HTTPS protocol.
+- **Which certificate to use** to encrypt traffic and authenticate the connection to a server.
+
+## 10. Azure Application Gateway routing <a name="question10"></a>
+
+When the gateway routes a client request to a web server in the back-end pool, it uses a set of rules configured for the gateway to determine where the request should go. There are two primary methods of routing this client request traffic: path-based routing and multiple-site routing.  
