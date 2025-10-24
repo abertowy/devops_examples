@@ -392,13 +392,13 @@ The **web application firewall (WAF)** is an **optional component** that **handl
 
 ### Back-end pools
 
-A **back-end pool** is a collection of web servers that can be made up of: a $\color{Green}{\textsf{fixed set of virtual machines}}$, a $\color{Green}{\textsf{virtual machine scale-set}}$, an $\color{Green}{\textsf{app hosted by Azure App Services}}$, or a collection of $\color{Green}{\textsf{on-premises servers}}$.  
-Each **back-end pool** has an **associated load balancer** that distributes work across the pool. When configuring the pool, you provide the **IP address or name of each web server**. **All the servers** in the back-end pool should be **configured in the same way**, including their security settings.  
-If you're using `TLS/SSL`, the back-end pool has an $\color{Green}{\textsf{HTTP setting that references a certificate}}$ used to authenticate the back-end servers. $\color{Green}{\textsf{The gateway re-encrypts the traffic by using this certificate}}$ before sending it to one of your servers in the back-end pool.  
-If you're using **Azure App Service** to host the back-end application, you $\color{Green}{\textsf{don't need to install any certificates in Application Gateway}}$ to connect to the back-end pool. All communications are automatically encrypted. Application Gateway trusts the servers because Azure manages them.  
+A **back-end pool** is a collection of web servers that can be made up of: a $\color{Green}\large{\textsf{fixed set of virtual machines}}$, a $\color{Green}\large{\textsf{virtual machine scale-set}}$, an $\color{Green}\large{\textsf{app hosted by Azure App Services}}$, or a collection of $\color{Green}\large{\textsf{on-premises servers}}$.  
+Each **back-end pool** has an $\color{Yellow}\large{\textsf{associated load balancer}}$ that distributes work across the pool. When configuring the pool, you provide the **IP address or name of each web server**. **All the servers** in the back-end pool should be **configured in the same way**, including their security settings.  
+If you're using `TLS/SSL`, the back-end pool has an $\color{Green}\large{\textsf{HTTP setting that references a certificate}}$ used to authenticate the back-end servers. $\color{Green}\large{\textsf{The gateway re-encrypts the traffic by using this certificate}}$ before sending it to one of your servers in the back-end pool.  
+If you're using **Azure App Service** to host the back-end application, you $\color{Red}\large{\textsf{don't need to install any certificates in Application Gateway}}$ to connect to the back-end pool. All communications are automatically encrypted. Application Gateway trusts the servers because Azure manages them.  
 **Application Gateway** uses a rule to specify how to direct the messages that it receives on its incoming port to the servers in the back-end pool. If the servers are using `TLS/SSL`, you must **configure the rule** to indicate:  
-- That your servers **expect traffic** through the HTTPS protocol.
-- **Which certificate to use** to encrypt traffic and authenticate the connection to a server.
+- That your servers $\color{Yellow}\large{\textsf{expect traffic}}$ through the HTTPS protocol.
+- $\color{Yellow}\large{\textsf{Which certificate to use}}$ to encrypt traffic and authenticate the connection to a server.
 
 ## 10. Azure Application Gateway routing <a name="question10"></a>
 
