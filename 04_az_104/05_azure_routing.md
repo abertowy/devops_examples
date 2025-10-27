@@ -567,6 +567,8 @@ Network Watcher consists of three major sets of tools and capabilities:
 
     > Connection Monitor can detect changes that affect connectivity, such as network configuration changes or modifications to NSG rules.
 
+    > To use Connection Monitor for monitoring, you need to install monitoring agents on the hosts that you monitor.
+
 2. $\color{Green}\large{\textsf{Network diagnostic tools}}$  
     - $\color{Yellow}\large{\textsf{IP flow verify}}$: allows you to detect traffic filtering issues at a virtual machine level. It checks if a packet is allowed or denied to or from an IP address (IPv4 or IPv6 address). It also tells you which security rule allowed or denied the traffic.
     - $\color{Yellow}\large{\textsf{NSG diagnostics}}$ allows you to detect traffic filtering issues at a virtual machine, virtual machine scale set, or application gateway level. It checks if a packet is allowed or denied to or from an IP address, IP prefix, or a service tag. It tells you which security rule allowed or denied the traffic. It also allows you to add a new security rule with a higher priority to allow or deny the traffic.
@@ -579,3 +581,5 @@ Network Watcher consists of three major sets of tools and capabilities:
 3. $\color{Green}\large{\textsf{Traffic}}$  
     - $\color{Yellow}\large{\textsf{Flow logs}}$ allows you to log information about your Azure IP traffic and stores the data in Azure storage. You can log IP traffic flowing through a network security group or Azure virtual network.
     - $\color{Yellow}\large{\textsf{Traffic analytics}}$ provides rich visualizations of flow logs data.
+
+> It's important to realize that Network Watcher is mostly used for IaaS resources on Azure virtual networks. You can't use Azure Network Watcher to diagnose connectivity issues related to PaaS services or Web analytics. If you're encountering problems related to these services, you should check the Azure status or service health dashboard.

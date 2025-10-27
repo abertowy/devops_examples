@@ -314,7 +314,7 @@ The `NS` and `SOA` records are automatically created for apex domain when you cr
 - A public IP resource
 - A front-door profile
 
-### Advantages of using alias records:
+### Advantages of using alias records
 
 - **Prevents dangling DNS records**: A dangling DNS record occurs when the DNS zone records aren't up to date with changes to IP addresses. Alias records prevent dangling references by tightly coupling the lifecycle of a DNS record with an Azure resource.
 - **Updates DNS record set automatically when IP addresses change**: When the underlying IP address of a resource, service, or application is changed, the alias record ensures that any associated DNS records are automatically refreshed.
