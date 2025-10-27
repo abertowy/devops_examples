@@ -8,9 +8,12 @@
 5. [Access storage](#question5)
 6. [Azure Blob Storage](#question6)
 7. [Azure Files](#question7)
-8. [Some](#question8)
-9. [Some](#question9)
-10. [Some](#question10)
+8. [Manage Azure file shares](#question8)
+9. [Azure Storage security strategies](#question9)
+10. [Shared access signatures](#question10)
+11. [URI and SAS parameters](#question11)
+12. [Azure Storage encryption](#question12)
+13. [Azure Storage security best practices](#question13)
 
 ## 1. Azure Storage <a name="question1"></a>
 
@@ -267,10 +270,218 @@ Features:
 | - Files in an Azure Files share are true directory objects.<br>- Data in Azure Files is accessed through file shares across multiple virtual machines. | - Blobs in Azure Blob Storage are a flat namespace.<br>- Blob data in Azure Blob Storage is accessed through a container. |
 | Azure Files is ideal to lift and shift an application to the cloud that already uses the native file system APIs. Share data between the app and other applications running in Azure.<br>Azure Files is a good option when you want to store development and debugging tools that need to be accessed from many virtual machines. | Azure Blob Storage is ideal for applications that need to support streaming and random-access scenarios.<br>Azure Blob Storage is a good option when you want to be able to access application data from anywhere. |
 
+## 8. Manage Azure file shares <a name="question8"></a>
 
+Azure Files offers two industry-standard file system protocols for mounting Azure file shares: the $\color{Green}\large{\textsf{Server Message Block (SMB)}}$ protocol and the $\color{Green}\large{\textsf{Network File System (NFS)}}$ protocol. Azure file shares don't support both the SMB and NFS protocols on the same file share, although you can create SMB and NFS Azure file shares within the same storage account.
 
-## 8.  <a name="question8"></a>
+- $\color{Green}\large{\textsf{Premium Storage tier}}$:  
+    Premium file shares store data on $\color{Green}\large{\textsf{solid-state drives (SSDs)}}$, and are available only in the $\color{Green}\large{\textsf{FileStorage storage account kind}}$. They provide consistent high performance and low latency, and are available in LRS redundancy, with ZRS available in some regions. $\color{Yellow}\large{\textsf{Not available in all Azure regions}}$.
+- $\color{Green}\large{\textsf{Standard Storage tier}}$:  
+    Standard file shares store data on $\color{Green}\large{\textsf{hard disk drives (HDDs)}}$ and deploy in the $\color{Green}\large{\textsf{general-purpose version 2 (GPv2) storage account type}}$. Provide performance for workloads such as general-purpose file shares and dev/test environments. Standard file shares are available for LRS, ZRS, GRS, and GZRS, in $\color{Green}\large{\textsf{all Azure regions}}$.
 
-## 9.  <a name="question9"></a>
+### Types of authentication
 
-## 10.  <a name="question10"></a>
+- $\color{Green}\large{\textsf{Identity-based authentication over SMB}}$: Provides the same seamless single sign-on (SSO) experience when accessing Azure file shares as accessing on-premises file shares.
+- $\color{Green}\large{\textsf{Access key}}$: An access key is an older and less flexible option. An Azure storage account has two access keys that can be used when making a request to the storage account, including to Azure Files. Access keys are static and provide full control access to Azure Files. Access keys should be secured and not shared with users, because they $\color{Red}\large{\textsf{bypass all access control restrictions}}$. A best practice is to avoid sharing storage account keys and use identity-based authentication whenever possible.
+- $\color{Green}\large{\textsf{A Shared Access Signature (SAS) token}}$: SAS is a dynamically generated Uniform Resource Identifier (URI) that's based on the storage access key. SAS provides restricted access rights to an Azure storage account. Restrictions include allowed permissions, start and expiry time, allowed IP addresses from where requests can be sent, and allowed protocols. With Azure Files, a $\color{Green}\large{\textsf{SAS token is only used to provide REST API access from code}}$.
+
+### Creating SMB Azure file shares
+
+- $\color{Green}\large{\textsf{Open port 445}}$. SMB communicates over $\color{Green}\large{\textsf{TCP port 445}}$. Make sure port 445 is open. Also, make sure your firewall isn't blocking TCP port 445 from the client machine. If you can't unblock port 445, then a $\color{Green}\large{\textsf{VPN or ExpressRoute connection from on-premises to your Azure network is required}}$, with Azure Files exposed on your internal network using private endpoints.
+- $\color{Green}\large{\textsf{Enable secure transfer}}$. The Secure transfer required setting enhances the security of your storage account by limiting requests to your storage account from secure connections only. Consider the scenario where you use REST APIs to access your storage account. If you attempt to connect, and secure transfer required is enabled, you must connect by using HTTPS. If you try to connect to your account by using HTTP, and secure transfer required is enabled, the connection is rejected.
+
+### File share snapshots
+
+File share snapshots capture a point-in-time, $\color{Green}\large{\textsf{read-only copy of your data}}$.
+
+**Characteristics**:
+
+- The Azure Files share snapshot capability is provided at the file share level.
+- $\color{Green}\large{\textsf{Share snapshots are incremental}}$ in nature. Only data changed since the most recent share snapshot is saved.
+- Incremental snapshots minimize the time required to create share snapshots and saves on storage costs.
+- Even though share snapshots are saved incrementally, you only need to retain the most recent share snapshot to restore the share.
+- You can retrieve a $\color{Green}\large{\textsf{share snapshot for an individual file}}$. This level of support helps with restoring individual files rather than having to restore to the entire file share.
+- If you delete a file share that has share snapshots, all of its $\color{Green}\large{\textsf{snapshots are deleted along with the share}}$.
+
+**Benefits**:
+
+- $\color{Green}\large{\textsf{Protect against application error and data corruption}}$  
+    Applications that use file shares perform operations like writing, reading, storage, transmission, and processing. When an application is misconfigured or an unintentional bug is introduced, accidental overwrite or damage can happen to a few data blocks. To help protect against these scenarios, you can take a share snapshot before you deploy new application code. When a bug or application error is introduced with the new deployment, you can go back to a previous version of your data on that file share.
+- $\color{Green}\large{\textsf{Protect against accidental deletions or unintended changes}}$  
+    Imagine you're working on a text file in a file share. After the text file is closed, you lose the ability to undo your changes. In this scenario, you need to recover a previous version of your file. You can use share snapshots to recover previous versions of the deleted or renamed file.
+- $\color{Green}\large{\textsf{Support backup and recovery}}$  
+    After you create a file share, you can periodically create a snapshot of the file share to use it for data backup. A share snapshot, when taken periodically, helps maintain previous versions of data that can be used for future audit requirements or disaster recovery.
+
+### Soft delete for Azure Files
+
+Soft delete lets you recover deleted files and file shares.
+
+**Characteristics**:
+
+- Soft delete for file shares is enabled at the storage account level.
+- Soft delete transitions content to a soft deleted state instead of being permanently erased.
+- Soft delete lets you configure the retention period. The retention period is the amount of time that soft deleted file shares are stored and available for recovery.
+- Soft delete provides a retention period between 1 and 365 days.
+- Soft delete can be enabled on either new or existing file shares.
+
+**Benefits**:
+
+- $\color{Green}\large{\textsf{Recover from accidental data loss}}$. You can recover deleted or corrupted data with soft delete.
+- $\color{Green}\large{\textsf{Upgrade scenarios}}$. Use soft delete to restore to a known good state after a failed upgrade attempt.
+- $\color{Green}\large{\textsf{Ransomware protection}}$. Use soft delete to recover data without paying ransom to cybercriminals.
+- $\color{Green}\large{\textsf{Long-term retention}}$. Use soft delete to comply with data retention requirements.
+- $\color{Green}\large{\textsf{Business continuity}}$. Use soft delete to prepare your infrastructure to be highly available for critical workloads.
+
+### Azure Storage Explorer
+
+Azure Storage Explorer is a standalone application that makes it easy to work with Azure Storage data.
+
+**Characteristics**:
+
+- Azure Storage Explorer $\color{Green}\large{\textsf{requires both management (Azure Resource Manager) and data layer permissions to allow full access}}$ to your resources. You need Microsoft Entra ID permissions to access your storage account, the containers in your account, and the data in the containers.
+- Azure Storage Explorer lets you connect to different storage accounts.  
+    - Connect to storage accounts associated with your Azure subscriptions.
+    - Connect to storage accounts and services that are shared from other Azure subscriptions.
+    - Connect to and manage local storage by using the Azure Storage Emulator.
+- Azure Storage Explorer lets you attach to external storage accounts so storage accounts can be easily shared.  
+    > To use a storage account name and key from a national Azure cloud, use the Storage endpoints domain drop-down menu to select Other, and then enter the custom storage account endpoint domain.
+
+### Azure File Sync
+
+Azure File Sync enables you to cache several Azure Files shares on an on-premises Windows Server or cloud virtual machine. You can use Azure File Sync to centralize your organization's file shares in Azure Files, while keeping the flexibility, performance, and compatibility of an on-premises file server.
+
+- Azure File Sync transforms Windows Server into a quick cache of your Azure Files shares.
+- You can use any protocol that's available on Windows Server to access your data locally with Azure File Sync, including SMB, NFS, and FTPS.
+- Azure File Sync supports as many caches as you need around the world.
+
+**Features**:
+
+- $\color{Green}\large{\textsf{Application lift and shift}}$. Use Azure File Sync to move applications that require access between Azure and on-premises systems. Provide write access to the same data across Windows Servers and Azure Files.
+- $\color{Green}\large{\textsf{Support for branch offices}}$. Support your branch offices that need to back up files by using Azure File Sync. Use the service to set up a new server that connects to Azure storage.
+- $\color{Green}\large{\textsf{Backup and disaster recovery}}$. After you implement Azure File Sync, Azure Backup backs up your on-premises data. Restore file metadata immed- $\color{Green}\large{\textsf{File archiving with cloud tiering}}$. Azure File Sync stores only recently accessed data on local servers. Implement cloud tiering so older data moves to Azure Files.
+
+### Azure File Sync: Cloud tiering (LFS ???)
+
+Frequently accessed files are cached locally on the server while all other files are tiered to Azure Files based on policy settings.
+
+- When a file is tiered, Azure File Sync $\color{Green}\large{\textsf{replaces the file locally with a pointer}}$. A pointer is commonly referred to as a reparse point. The parse point represents a URL to the file in Azure Files.
+- When a user opens a tiered file, Azure File Sync seamlessly recalls the file data from Azure Files without the user needing to know that the file is stored in Azure.
+- Cloud tiering files have $\color{Green}\large{\textsf{greyed icons with an offline O file attribute}}$ to let the user know when the file is only in Azure.
+
+## 9. Azure Storage security strategies <a name="question9"></a>
+
+Administrators use different strategies to ensure their data is secure. Common approaches include $\color{Green}\large{\textsf{encryption, authentication, authorization,}}$ $\color{Green}\large{\textsf{and user access control with credentials, file permissions, and private signatures}}$. Azure Storage offers a suite of security capabilities based on common strategies to help you secure your data.
+
+![Azure Storage Security](../images/04_az_104_06_az_storage_security.png)
+
+- $\color{Green}\large{\textsf{Encryption at rest}}$. Storage Service Encryption (SSE) with a 256-bit Advanced Encryption Standard (AES) cipher encrypts all data written to Azure Storage. When you read data from Azure Storage, Azure Storage decrypts the data before returning it. This process incurs no extra charges and doesn't degrade performance. Encryption at rest includes $\color{Green}\large{\textsf{encrypting virtual hard disks (VHDs) with Azure Disk Encryption}}$. This encryption uses `BitLocker` for Windows images, and uses `dm-crypt` for Linux.
+- $\color{Green}\large{\textsf{Encryption in transit}}$. Keep your data secure by enabling transport-level security between Azure and the client. Always use HTTPS to secure communication over the public internet. When you call the REST APIs to access objects in storage accounts, you can enforce the use of HTTPS by requiring secure transfer for the storage account. After you enable secure transfer, connections that use HTTP will be refused. This flag will also enforce secure transfer over SMB by requiring SMB 3.0 for all file share mounts.
+- $\color{Green}\large{\textsf{Encryption models}}$. Azure supports various encryption models, including server-side encryption that uses service-managed keys, customer-managed keys in Key Vault, or customer-managed keys on customer-controlled hardware. With client-side encryption, you can manage and store keys on-premises or in another secure location.
+- $\color{Green}\large{\textsf{Authorize requests}}$. For optimal security, Microsoft recommends using Microsoft Entra ID with managed identities to authorize requests against blob, queue, and table data, whenever possible. Authorization with Microsoft Entra ID and managed identities provides superior security and ease of use over Shared Key authorization.
+- $\color{Green}\large{\textsf{RBAC}}$. RBAC ensures that resources in your storage account are accessible only when you want them to be, and to only those users or applications whom you grant access. Assign RBAC roles scoped to an Azure storage account.
+- $\color{Green}\large{\textsf{Storage analytics}}$. Azure Storage Analytics performs logging for a storage account. You can use this data to trace requests, analyze usage trends, and diagnose issues with your storage account.
+
+> The Microsoft storage cloud security benchmark provides recommendations on how you can secure your cloud storage solutions.
+
+### Authorization strategies
+
+- $\color{Green}\large{\textsf{Microsoft Entra ID}}$  
+    Microsoft Entra ID is Microsoft's cloud-based identity and access management service. With Microsoft Entra ID, you can assign fine-grained access to users, groups, or applications by using role-based access control.
+- $\color{Green}\large{\textsf{Shared Key}}$  
+    Shared Key authorization relies on your Azure storage account access keys and other parameters to produce an encrypted signature string. The string is passed on the request in the Authorization header.
+- $\color{Green}\large{\textsf{Shared access signatures}}$  
+    A SAS delegates access to a particular resource in your Azure storage account with specified permissions and for a specified time interval.
+- $\color{Green}\large{\textsf{Anonymous access to containers and blobs}}$  
+    You can optionally make blob resources public at the container or blob level. A public container or blob is accessible to any user for anonymous read access. Read requests to public containers and blobs don't require authorization.
+
+## 10. Shared access signatures <a name="question10"></a>
+
+A shared access signature (SAS) is a uniform resource identifier (URI) that grants restricted access rights to Azure Storage resources. SAS is a secure way to share your storage resources without compromising your account keys.
+
+You can provide a SAS to clients who shouldn't have access to your storage account key. By distributing a SAS URI to these clients, you grant them access to a resource for a specified period of time. You'd typically use a SAS for a service where users read and write their data to your storage account.
+
+- $\color{Green}\large{\textsf{A user delegation SAS}}$ is secured with Microsoft Entra credentials and also by the permissions specified for the SAS. A user delegation SAS is supported for Blob Storage and Data Lake Storage,
+- $\color{Green}\large{\textsf{An account-level SAS}}$ to allow access to anything that a service-level SAS can allow, plus other resources and abilities. For example, you can use an account-level SAS to allow the ability to create file systems.
+- $\color{Green}\large{\textsf{A service-level SAS}}$ to allow access to specific resources in a storage account. You'd use this type of SAS, for example, to allow an app to retrieve a list of files in a file system, or to download a file.
+- $\color{Green}\large{\textsf{A stored access policy}}$ can provide another level of control when you use a service-level SAS on the server side. You can group SASs and provide other restrictions by using a stored access policy.
+
+### Managing risks
+
+| Recommendation | Description |
+| Always use HTTPS for creation and distribution | If a SAS is passed over HTTP and intercepted, an attacker can intercept and use the SAS. These man-in-the-middle attacks can compromise sensitive data or allow for data corruption by the malicious user. |
+| Reference stored access policies where possible | Stored access policies give you the option to revoke permissions without having to regenerate the Azure storage account keys. Set the storage account key expiration date far in the future. |
+| Set near-term expiry times for an unplanned SAS | If a SAS is compromised, you can mitigate attacks by limiting the SAS validity to a short time. This practice is important if you can't reference a stored access policy. Near-term expiration times also limit the amount of data that can be written to a blob by limiting the time available to upload to it. |
+| Require clients automatically renew the SAS | Require your clients to renew the SAS well before the expiration date. By renewing early, you allow time for retries if the service providing the SAS is unavailable. |
+| Plan carefully for the SAS start time | If you set the start time for a SAS to now, then due to clock skew (differences in current time according to different machines), failures might be observed intermittently for the first few minutes. In general, set the start time to at least 15 minutes in the past. Or, don't set a specific start time, which causes the SAS to be valid immediately in all cases. The same conditions generally apply to the expiry time. You might observe up to 15 minutes of clock skew in either direction on any request. For clients that use a REST API version earlier than 2012-02-12, the maximum duration for a SAS that doesn't reference a stored access policy is 1 hour. Any policies that specify a longer term fail. |
+| Define minimum access permissions for resources | A security best practice is to provide a user with the minimum required privileges. If a user only needs read access to a single entity, then grant them read access to that single entity, and not read/write/delete access to all entities. This practice also helps lessen the damage if a SAS is compromised because the SAS has less power in the hands of an attacker. |
+| Validate data written by using a SAS | When a client application writes data to your Azure storage account, keep in mind there can be problems with the data. If your application requires validated or authorized data, validate the data after written, but before used. This practice also protects against corrupt or malicious data being written to your account, either by a user who properly acquired the SAS, or by a user exploiting a leaked SAS. |
+| Don't assume a SAS is always the correct choice | In some scenarios, the risks associated with a particular operation against your Azure storage account outweigh the benefits of using a SAS. For such operations, create a middle-tier service that writes to your storage account after performing business rule validation, authentication, and auditing. Also, sometimes it's easier to manage access in other ways. If you want to make all blobs in a container publicly readable, you can make the container Public, rather than providing a SAS to every client for access. |
+
+## 11. URI and SAS parameters <a name="question11"></a>
+
+When you create your `shared access signature (SAS)`, a `uniform resource identifier (URI)` is created by using parameters and tokens. The URI consists of your Azure Storage resource URI and the SAS token.
+
+```bash
+# This example creates a service-level SAS that grants read and write permissions to a blob
+https://myaccount.blob.core.windows.net/?restype=service&comp=properties&sv=2015-04-05&ss=bf&st=2015-04-29T22%3A18%3A26Z&se=2015-04-30T02%3A23%3A26Z&sr=b&sp=rw&sip=168.1.5.60-168.1.5.70&spr=https&sig=F%6GRVAZ5Cdj2Pw4tgU7IlSTkWgn7bUkkAg8P6HESXwmf%4B
+```
+
+| Parameter | Example | Description |
+|----|----|----|
+| Resource URI | https://myaccount.blob.core.windows.net/?restype=service&comp=properties | Defines the Azure Storage endpoint and other parameters. This example defines an endpoint for Blob Storage and indicates that the SAS applies to service-level operations. When the URI is used with GET, the Storage properties are retrieved. When the URI is used with SET, the Storage properties are configured. |
+| Storage version | `sv=2015-04-05` | For Azure Storage version 2012-02-12 and later, this parameter indicates the version to use. This example indicates that version 2015-04-05 (April 5, 2015) should be used. |
+| Storage service | `ss=bf` | Specifies the Azure Storage to which the SAS applies. This example indicates that the SAS applies to Blob Storage and Azure Files. |
+| Start time | `st=2015-04-29T22%3A18%3A26Z` | (Optional) Specifies the start time for the SAS in UTC time. This example sets the start time as `April 29, 2015 22:18:26 UTC`. If you want the SAS to be valid immediately, omit the start time. |
+| Expiry time | `se=2015-04-30T02%3A23%3A26Z` | Specifies the expiration time for the SAS in UTC time. This example sets the expiry time as `April 30, 2015 02:23:26 UTC`. |
+| Resource | `sr=b` | Specifies which resources are accessible via the SAS. This example specifies that the accessible resource is in Blob Storage. |
+| Permissions | `sp=rw` | Lists the permissions to grant. This example grants access to read and write operations. |
+| IP range | `sip=168.1.5.60-168.1.5.70` | Specifies a range of IP addresses from which a request is accepted. This example defines the IP address range `168.1.5.60` through `168.1.5.70`. |
+| Protocol | spr=https | Specifies the protocols from which Azure Storage accepts the SAS. This example indicates that only requests by using HTTPS are accepted. |
+| Signature | `sig=F%6GRVAZ5Cdj2Pw4tgU7IlSTkWgn7bUkkAg8P6HESXwmf%4B` | Specifies that access to the resource is authenticated by using a Hash-Based Message Authentication Code (HMAC) signature. The signature is computed with a key using the `SHA256` algorithm, and encoded by using Base64 encoding. |
+
+## 12. Azure Storage encryption <a name="question12"></a>
+
+When you create a storage account, Azure generates $\color{Green}\large{\textsf{two 512-bit storage account access keys}}$ for that account. These keys can be used to authorize access to data in your storage account via Shared Key authorization, or via SAS tokens that are signed with the shared key.
+
+Microsoft recommends that you use Azure Key Vault to manage your access keys, and that you $\color{Green}\large{\textsf{regularly rotate and regenerate your keys}}$. Using Azure Key Vault makes it easy to rotate your keys without interruption to your applications. You can also manually rotate your keys.
+
+**Characteristics**:
+
+- Data is automatically encrypted before written to Azure storage.
+- Data is automatically decrypted when retrieved.
+- Azure Storage encryption, encryption at rest, decryption, and key management are transparent to users.
+- All data written to Azure Storage is encrypted through 256-bit advanced encryption standard (AES) encryption. AES is one of the strongest block ciphers available.
+- $\color{Green}\large{\textsf{Azure Storage encryption is enabled for all new and existing storage accounts and can't be disabled}}$.
+
+**Options**:
+
+- $\color{Green}\large{\textsf{Infrastructure encryption}}$. Infrastructure encryption can be enabled for the entire storage account, or for an encryption scope within an account. When infrastructure encryption is enabled for a storage account or an encryption scope, data is encrypted twice: once at the service level and once at the infrastructure level; with two different encryption algorithms and two different keys.
+- $\color{Green}\large{\textsf{Platform-managed keys}}$. Platform-managed keys (PMKs) are encryption keys generated, stored, and managed entirely by Azure. $\color{Green}\large{\textsf{Customers don't interact with PMKs}}$. The keys used for $\color{Green}\large{\textsf{Azure Data Encryption-at-Rest}}$, for instance, are $\color{Green}\large{\textsf{PMKs by default}}$.
+- $\color{Green}\large{\textsf{Customer-managed keys}}$. Customer managed keys (CMK), on the other hand, are keys read, created, deleted, updated, and/or administered by one or more customers. Keys stored in a customer-owned key vault or hardware security module (HSM) are CMKs. Bring Your Own Key (BYOK) is a CMK scenario in which a customer imports (brings) keys from an outside storage location.
+
+### Customer-managed keys
+
+- By creating your own keys (referred to as customer-managed keys), you have $\color{Green}\large{\textsf{more flexibility and greater control}}$.
+- You can create, disable, audit, rotate, and define access controls for your encryption keys.
+- Customer-managed keys can be used with Azure Storage encryption. You can use a new key or an existing key vault and key. The Azure storage account and the key vault must be in the $\color{Green}\large{\textsf{same region}}$, but they can be in $\color{Green}\large{\textsf{different subscriptions}}$.
+
+## 13. Azure Storage security best practices <a name="question13"></a>
+
+$\color{Green}\large{\textsf{Storage insights}}$ provides comprehensive monitoring of your Azure Storage accounts. Storage Insights delivers a unified view of your Azure Storage services performance, capacity, and availability.
+
+**Benefits**:
+
+- $\color{Green}\large{\textsf{Detailed Metrics and Logs}}$  
+    Azure Storage Insights offers detailed metrics, logs, and diagnostic information that enhance visibility into storage operations. This helps in monitoring key performance indicators (KPIs) such as latency, throughput, capacity utilization, and transactions.
+- $\color{Green}\large{\textsf{Enhanced Security and Compliance}}$  
+    By using Azure Storage Insights, you can ensure enhanced security and compliance. It provides actionable insights and alerts that help in swiftly identifying and resolving security issues.
+- $\color{Green}\large{\textsf{Role-Based Access Control (RBAC)}}$  
+    Azure Storage Insights integrates with Azure's security features, including role-based access control (RBAC), Microsoft Entra ID, connection strings, and access control list (ACL) permissions. RBAC ensures secure access to your data and resources.
+- $\color{Green}\large{\textsf{Unified View}}$  
+    It delivers a unified view of your Azure Storage services' performance, capacity, and availability, which is crucial for maintaining the security and efficiency of your storage accounts.
+
+**Security uses for Storage Insights**
+
+- $\color{Green}\large{\textsf{Real-Time Monitoring}}$. Azure Storage Insights enables real-time monitoring of storage accounts, allowing you to track usage trends, monitor performance, and set up alerts for any anomalies.
+- $\color{Green}\large{\textsf{Security Auditing}}$. It aids in security auditing by providing comprehensive monitoring and detailed logs, which are essential for ensuring compliance and identifying any security issues.
+- $\color{Green}\large{\textsf{Health Analysis and Optimization}}$. The tool helps in health analysis and optimization of storage accounts, ensuring security and optimal performance.
